@@ -39,6 +39,13 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0'
 
+    //firebase
+    compile 'com.google.firebase:firebase-core:10.2.6'
+    compile 'com.google.firebase:firebase-database:10.2.6'
+//    In case we need storage (profile pics, maybe?)
+//    compile 'com.google.firebase:firebase-storage:10.2.6'
+
+
     testCompile 'junit:junit:4.12'
 
     //Android test compiles
@@ -85,3 +92,7 @@ jacocoAndroidUnitTestReport {
     html.enabled true
     xml.enabled true
 }
+//Deleted this line as workaround suggested in this stackoverflow thread
+//http://stackoverflow.com/questions/33572465/gradle-errorexecution-failed-for-task-appprocessdebuggoogleservices
+//apply plugin: 'com.google.gms.google-services'
+
