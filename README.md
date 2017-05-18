@@ -1,7 +1,7 @@
 # ARD Android Companion
-[![Build Status](https://travis-ci.com/kukreja-vikramaditya/ARD.svg?token=PosPSPTbkNM2WxfmyvGE&branch=master)](https://travis-ci.com/kukreja-vikramaditya/ARD)
+[![Build Status](https://api.travis-ci.com/MobileApplicationsClub/ARD.svg?token=PosPSPTbkNM2WxfmyvGE&branch=master)](https://travis-ci.com/MobileApplicationsClub/ARD)
 [![Dependency Status](https://www.versioneye.com/user/projects/58ee25749f10f8002b3777cd/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/58ee25749f10f8002b3777cd)
-[![codecov](https://codecov.io/gh/kukreja-vikramaditya/ARD/branch/master/graph/badge.svg?token=aoOIeczRVC)](https://codecov.io/gh/kukreja-vikramaditya/ARD)
+[![codecov](https://codecov.io/gh/MobileApplicationsClub/ARD/branch/master/graph/badge.svg?token=aoOIeczRVC )](https://codecov.io/gh/MobileApplicationsClub/ARD)
 
 
 This app runs on Android OS version above and including Lollipop (*API 21*) uptil Nougat (*API 25*).
