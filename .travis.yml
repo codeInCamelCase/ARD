@@ -24,6 +24,8 @@ android:
 
 jdk:
   - oraclejdk8
+  - openjdk8
+  - openjdk7
 
 os:
   - linux
