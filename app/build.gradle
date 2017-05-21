@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco-android'
 apply plugin: 'realm-android'
+apply plugin: 'com.jakewharton.butterknife'
+
 
 
 ext {
@@ -9,8 +11,10 @@ ext {
     targetSdkVer = 25
     buildToolsVer = "25.0.2"
     supportLibVer = "25.3.1"
+    butterknifeVer="8.4.0"
     verCode = 1
     verName = "1.0"
+    firebaseLibVer = "10.2.6"
 }
 
 android {
@@ -50,6 +54,14 @@ dependencies {
     compile "com.android.support:support-v4:${supportLibVer}"
     compile "com.android.support:design:${supportLibVer}"
     compile 'com.android.support.constraint:constraint-layout:1.0.0'
+
+    compile "com.jakewharton:butterknife:${butterknifeVer}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${butterknifeVer}"
+    compile "com.google.firebase:firebase-core:${firebaseLibVer}"
+    compile "com.google.firebase:firebase-database:${firebaseLibVer}"
+    compile "com.google.firebase:firebase-storage:${firebaseLibVer}"
+    compile "com.google.firebase:firebase-auth:${firebaseLibVer}"
+    compile "com.google.firebase:firebase-messaging:${firebaseLibVer}"
 
     testCompile 'junit:junit:4.12'
 
@@ -97,3 +109,4 @@ jacocoAndroidUnitTestReport {
     html.enabled true
     xml.enabled true
 }
+apply plugin: 'com.google.gms.google-services'
