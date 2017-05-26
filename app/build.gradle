@@ -33,7 +33,7 @@ android {
     compileSdkVersion compileSdkVer
     buildToolsVersion buildToolsVer
     defaultConfig {
-        applicationId "in.ac.bits_pilani.goa.ard"
+        applicationId "com.macbitsgoa.ard"
         minSdkVersion minSdkVer
         targetSdkVersion targetSdkVer
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
