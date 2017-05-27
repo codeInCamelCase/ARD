@@ -31,8 +31,4 @@ public class AHC {
      */
     public static final int REALM_ARD_DATABASE_SCHEMA = 0;
 
-    @Override
-    public String toString() {
-        return AHC.class.getSimpleName();
-    }
 }
