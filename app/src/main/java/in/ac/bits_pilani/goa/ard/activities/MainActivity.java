@@ -10,13 +10,25 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import in.ac.bits_pilani.goa.ard.R;
+import in.ac.bits_pilani.goa.ard.interfaces.NavigationDrawerListener;
 import in.ac.bits_pilani.goa.ard.utils.AHC;
 
 /**
@@ -55,6 +67,17 @@ public class MainActivity extends AppCompatActivity
      */
     private final String TAG = AHC.TAG + ".activities." + getClass().getSimpleName();
 
+    /**
+     * Variables related to navigation drawer
+     */
+    public static String navDrawerTitleText = null;
+    public static String navDrawerSubtitleText = null;
+    public static ArrayList<String> navDrawerImageList = null;
+    public static String navDrawerImageURL = null;
+    private DatabaseReference navDrawerDBRef;
+    private NavigationDrawerListener navDrawerListener;
+    public static final int navDrawerImgAnimDur = 50;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +100,45 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
+        navDrawerDBRef = FirebaseDatabase.getInstance().getReference(AHC.FDR_NAV_DRAWER);
+
+        View headerView = navigationView.getHeaderView(0);
+        ImageView navDrawerImage = ButterKnife.findById(headerView, R.id.nav_drawer_image);
+        TextView navDrawerTitle = ButterKnife.findById(headerView, R.id.nav_drawer_title);
+        TextView navDrawerSubtitle = ButterKnife.findById(headerView, R.id.nav_drawer_subtitle);
+
+        if (navDrawerTitleText != null) {
+            navDrawerTitle.setText(navDrawerTitleText);
+        }
+
+        if (navDrawerSubtitleText != null) {
+            navDrawerSubtitle.setText(navDrawerSubtitleText);
+        }
+
+        if (navDrawerImageURL != null) {
+            RequestOptions navDrawerImageOptions = new RequestOptions()
+                    .placeholder(this.getDrawable(R.drawable.nav_drawer_default_image));
+            try {
+                Glide.with(this)
+                        .load(navDrawerImageURL)
+                        .transition(DrawableTransitionOptions.withCrossFade()
+                                .crossFade(navDrawerImgAnimDur)
+                        )
+                        .apply(navDrawerImageOptions)
+                        .into(navDrawerImage);
+            } catch (Exception e) {
+                navDrawerImage.setImageDrawable(this.getDrawable(R.drawable.nav_drawer_default_image));
+                Log.e(TAG, e.toString());
+            }
+        }
+
+        navDrawerListener = new NavigationDrawerListener(
+                this,
+                navDrawerTitle,
+                navDrawerSubtitle,
+                navDrawerImage,
+                TAG);
+        navDrawerDBRef.addValueEventListener(navDrawerListener);
     }
 
     @Override
@@ -133,5 +195,10 @@ public class MainActivity extends AppCompatActivity
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    @Override
+    protected void onStop() {
+        navDrawerDBRef.removeEventListener(navDrawerListener);
+        super.onStop();
     }
 }

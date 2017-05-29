@@ -25,6 +25,7 @@ ext {
     targetSdkVer = 25
     verCode = 1
     verName = "1.0"
+    glideVer = "4.0.0-RC0"
 }
 
 def configDir = "${project.rootDir}/config/"
@@ -72,7 +73,6 @@ dependencies {
     compile "com.android.support:appcompat-v7:${supportVer}"
     compile "com.android.support:support-v4:${supportVer}"
     compile "com.android.support:design:${supportVer}"
-    compile "com.android.support.constraint:constraint-layout:${constraintVer}"
 
     compile "com.jakewharton:butterknife:${butterknifeVer}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${butterknifeVer}"
@@ -81,6 +81,9 @@ dependencies {
     compile "com.google.firebase:firebase-storage:${firebaseVer}"
     compile "com.google.firebase:firebase-auth:${firebaseVer}"
     compile "com.google.firebase:firebase-messaging:${firebaseVer}"
+
+    compile "com.github.bumptech.glide:glide:${glideVer}"
+    annotationProcessor "com.github.bumptech.glide:compiler:${glideVer}"
 
     //Unit test compiles
     testCompile "junit:junit:${junitVer}"
@@ -121,6 +124,7 @@ dependencies {
 
     })
 
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
 
 checkstyle {
