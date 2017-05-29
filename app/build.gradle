@@ -51,7 +51,7 @@ android {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            multiDexKeepFile file('config/multidex/multidex-config.txt')
+            multiDexKeepFile file("${configDir}/multidex/multidex.txt")
         }
     }
     lintOptions {
