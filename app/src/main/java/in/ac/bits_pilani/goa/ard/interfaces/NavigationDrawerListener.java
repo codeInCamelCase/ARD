@@ -100,9 +100,10 @@ public class NavigationDrawerListener implements ValueEventListener {
         if (dataSnapshot.child(AHC.FDR_NAV_DRAWER_IMAGE_LIST).exists()
                 && dataSnapshot.child(AHC.FDR_NAV_DRAWER_IMAGE_LIST).getChildrenCount() > 0) {
             final ArrayList<String> navDrawerImageList = new ArrayList<>();
-            for (final DataSnapshot childSnapshot
-                    : dataSnapshot.child(AHC.FDR_NAV_DRAWER_IMAGE_LIST).getChildren())
+            for (final DataSnapshot childSnapshot :
+                    dataSnapshot.child(AHC.FDR_NAV_DRAWER_IMAGE_LIST).getChildren()) {
                 navDrawerImageList.add(childSnapshot.getValue(String.class));
+            }
 
             if (!Objects.equals(navDrawerImageList, MainActivity.navDrawerImageList)) {
                 final Random rand = new Random();
