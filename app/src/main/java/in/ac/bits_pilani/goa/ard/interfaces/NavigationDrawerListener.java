@@ -28,18 +28,46 @@ import in.ac.bits_pilani.goa.ard.utils.AHC;
  */
 
 public class NavigationDrawerListener implements ValueEventListener {
+
+    /**
+     * Context required for glide image loading.
+     */
     private final Context context;
+
+    /**
+     * Textview ocrresponding to nav drawer title
+     */
     private final TextView navDrawerTitle;
+
+    /**
+     * Textview corresponding to nav drawer subtitle.
+     */
     private final TextView navDrawerSubtitle;
+
+    /**
+     * ImageView corresponding to nav drawer header background.
+     */
     private final ImageView navDrawerImage;
+
+    /**
+     * TAG for methods in this class.
+     */
     private final String TAG;
 
+    /**
+     * Constructor with all fields required.
+     * @param context
+     * @param navDrawerTitle
+     * @param navDrawerSubtitle
+     * @param navDrawerImage
+     * @param TAG
+     */
     public NavigationDrawerListener(
-            Context context,
-            TextView navDrawerTitle,
-            TextView navDrawerSubtitle,
-            ImageView navDrawerImage,
-            String TAG) {
+            final Context context,
+            final TextView navDrawerTitle,
+            final TextView navDrawerSubtitle,
+            final ImageView navDrawerImage,
+            final String TAG) {
         this.context = context;
         this.navDrawerTitle = navDrawerTitle;
         this.navDrawerSubtitle = navDrawerSubtitle;
@@ -48,11 +76,12 @@ public class NavigationDrawerListener implements ValueEventListener {
     }
 
     @Override
-    public void onDataChange(DataSnapshot dataSnapshot) {
+    public void onDataChange(final DataSnapshot dataSnapshot) {
         if (dataSnapshot.child(AHC.FDR_NAV_DRAWER_TITLE).exists()) {
-            String navDrawerTitleText = dataSnapshot
+            final String navDrawerTitleText = dataSnapshot
                     .child(AHC.FDR_NAV_DRAWER_TITLE)
                     .getValue(String.class);
+
             if (!Objects.equals(navDrawerTitleText, MainActivity.navDrawerTitleText)) {
                 Log.d(TAG, "onDataChange: navDrawerTitle");
                 navDrawerTitle.setText(navDrawerTitleText);
@@ -60,9 +89,10 @@ public class NavigationDrawerListener implements ValueEventListener {
             }
         }
         if (dataSnapshot.child(AHC.FDR_NAV_DRAWER_SUBTITLE).exists()) {
-            String navDrawerSubtitleText = dataSnapshot
+            final String navDrawerSubtitleText = dataSnapshot
                     .child(AHC.FDR_NAV_DRAWER_SUBTITLE)
                     .getValue(String.class);
+
             if (!Objects.equals(navDrawerSubtitleText, MainActivity.navDrawerSubtitleText)) {
                 Log.d(TAG, "onDataChange: navDrawerSubtitle");
                 navDrawerSubtitle.setText(navDrawerSubtitleText);
@@ -71,32 +101,28 @@ public class NavigationDrawerListener implements ValueEventListener {
         }
         if (dataSnapshot.child(AHC.FDR_NAV_DRAWER_IMAGE_LIST).exists()
                 && dataSnapshot.child(AHC.FDR_NAV_DRAWER_IMAGE_LIST).getChildrenCount() > 0) {
-            ArrayList<String> navDrawerImageList = new ArrayList<>();
-            for (DataSnapshot childSnapshot : dataSnapshot
-                    .child(AHC.FDR_NAV_DRAWER_IMAGE_LIST)
-                    .getChildren()
-                    ) {
+            final ArrayList<String> navDrawerImageList = new ArrayList<>();
+            for (final DataSnapshot childSnapshot
+                    : dataSnapshot.child(AHC.FDR_NAV_DRAWER_IMAGE_LIST).getChildren()) {
                 navDrawerImageList.add(childSnapshot.getValue(String.class));
             }
+
             if (!Objects.equals(navDrawerImageList, MainActivity.navDrawerImageList)) {
                 Log.d(TAG, "onDataChange: navDrawerImageList");
-                Random rand = new Random();
-                String navDrawerImageURL = navDrawerImageList
+                final Random rand = new Random();
+                final String navDrawerImageURL = navDrawerImageList
                         .get(rand.nextInt(navDrawerImageList.size()));
-                RequestOptions navDrawerImageOptions = new RequestOptions()
+                final RequestOptions navDrawerImageOptions = new RequestOptions()
                         .placeholder(context.getDrawable(R.drawable.nav_drawer_default_image));
-                try {
-                    Glide.with(context)
-                            .load(navDrawerImageURL)
-                            .transition(DrawableTransitionOptions.withCrossFade()
-                                    .crossFade(MainActivity.navDrawerImgAnimDur)
-                            )
-                            .apply(navDrawerImageOptions)
-                            .into(navDrawerImage);
-                } catch (Exception e) {
-                    navDrawerImage.setImageDrawable(context.getDrawable(R.drawable.nav_drawer_default_image));
-                    Log.e(TAG, e.toString());
-                }
+
+                Glide.with(context)
+                        .load(navDrawerImageURL)
+                        .transition(DrawableTransitionOptions.withCrossFade()
+                                .crossFade(MainActivity.navDrawerAnimationDuration)
+                        )
+                        .apply(navDrawerImageOptions)
+                        .into(navDrawerImage);
+
                 MainActivity.navDrawerImageURL = navDrawerImageURL;
                 MainActivity.navDrawerImageList = navDrawerImageList;
             }
@@ -104,7 +130,7 @@ public class NavigationDrawerListener implements ValueEventListener {
     }
 
     @Override
-    public void onCancelled(DatabaseError databaseError) {
+    public void onCancelled(final DatabaseError databaseError) {
         Log.e(TAG, databaseError.toString());
     }
 }

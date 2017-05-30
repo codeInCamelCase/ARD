@@ -39,6 +39,33 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     /**
+     * The title of nav Drawer.
+     */
+    public static String navDrawerTitleText;
+
+    /**
+     * The subtitle of nav Drawer.
+     */
+    public static String navDrawerSubtitleText;
+
+    /**
+     * The array of urls of images used as nav drawer background.
+     */
+    public static ArrayList<String> navDrawerImageList;
+
+    /**
+     * URL of nav drawer background for current instance of app.
+     * Chosen randomly from navDrawerImageList when app launches
+     * and when corresponding list changes in firebase.
+     */
+    public static String navDrawerImageURL = null;
+
+    /**
+     * Duration of crossfade animation between in nav drawer background images (in milliseconds)
+     */
+    public static final int navDrawerAnimationDuration = 50;
+
+    /**
      * Toolbar for MainActivity.
      */
     @BindView(R.id.toolbar_activity_main)
@@ -68,15 +95,10 @@ public class MainActivity extends AppCompatActivity
     private final String TAG = AHC.TAG + ".activities." + getClass().getSimpleName();
 
     /**
-     * Variables related to navigation drawer
+     * Variables related to navigation drawer.
      */
-    public static String navDrawerTitleText = null;
-    public static String navDrawerSubtitleText = null;
-    public static ArrayList<String> navDrawerImageList = null;
-    public static String navDrawerImageURL = null;
     private DatabaseReference navDrawerDBRef;
     private NavigationDrawerListener navDrawerListener;
-    public static final int navDrawerImgAnimDur = 50;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -102,10 +124,10 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navDrawerDBRef = FirebaseDatabase.getInstance().getReference(AHC.FDR_NAV_DRAWER);
 
-        View headerView = navigationView.getHeaderView(0);
-        ImageView navDrawerImage = ButterKnife.findById(headerView, R.id.nav_drawer_image);
-        TextView navDrawerTitle = ButterKnife.findById(headerView, R.id.nav_drawer_title);
-        TextView navDrawerSubtitle = ButterKnife.findById(headerView, R.id.nav_drawer_subtitle);
+        final View headerView = navigationView.getHeaderView(0);
+        final ImageView navDrawerImage = ButterKnife.findById(headerView, R.id.nav_drawer_image);
+        final TextView navDrawerTitle = ButterKnife.findById(headerView, R.id.nav_drawer_title);
+        final TextView navDrawerSubtitle = ButterKnife.findById(headerView, R.id.nav_drawer_subtitle);
 
         if (navDrawerTitleText != null) {
             navDrawerTitle.setText(navDrawerTitleText);
@@ -116,20 +138,16 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (navDrawerImageURL != null) {
-            RequestOptions navDrawerImageOptions = new RequestOptions()
+            final RequestOptions navDrawerImageOptions = new RequestOptions()
                     .placeholder(this.getDrawable(R.drawable.nav_drawer_default_image));
-            try {
+
                 Glide.with(this)
                         .load(navDrawerImageURL)
                         .transition(DrawableTransitionOptions.withCrossFade()
-                                .crossFade(navDrawerImgAnimDur)
+                                .crossFade(navDrawerAnimationDuration)
                         )
                         .apply(navDrawerImageOptions)
                         .into(navDrawerImage);
-            } catch (Exception e) {
-                navDrawerImage.setImageDrawable(this.getDrawable(R.drawable.nav_drawer_default_image));
-                Log.e(TAG, e.toString());
-            }
         }
 
         navDrawerListener = new NavigationDrawerListener(
@@ -196,6 +214,7 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     @Override
     protected void onStop() {
         navDrawerDBRef.removeEventListener(navDrawerListener);
