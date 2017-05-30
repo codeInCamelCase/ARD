@@ -30,6 +30,12 @@ import in.ac.bits_pilani.goa.ard.utils.AHC;
  */
 public class AboutMAC extends AppCompatActivity {
 
+
+    /**
+     * float magicnumber.
+     */
+    public static float magicnumber = 0.5f;
+
     /**
      * Textview for AboutMAC.
      */
@@ -76,17 +82,12 @@ public class AboutMAC extends AppCompatActivity {
     /**
      * String html_string.
      */
-    String html_string="html";
+    String html_string = "html";
 
     /**
      * String image_url_string.
      */
-    String image_url_string="imageUrl";
-
-    /**
-     * float magic_number;
-     */
-    public static float magic_number = 0.5f;
+    String image_url_string = "imageUrl";
 
     /**
      * Constructur for aboutmac.
@@ -117,7 +118,7 @@ public class AboutMAC extends AppCompatActivity {
             textView.setText(Html.fromHtml(html));
         }
         Glide.with(getApplicationContext()).load(url)
-                .thumbnail(magic_number)
+                .thumbnail(magicnumber)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
@@ -133,7 +134,7 @@ public class AboutMAC extends AppCompatActivity {
                     textView.setText(Html.fromHtml(html));
                 }
                 Glide.with(getApplicationContext()).load(url)
-                        .thumbnail(magic_number)
+                        .thumbnail(magicnumber)
                         .crossFade()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(imageView);
