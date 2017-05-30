@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="in.ac.bits_pilani.goa.ard">
-
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <application
         android:name=".ARD"
         android:allowBackup="true"
@@ -22,6 +22,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.AboutMAC"
+            android:label="@string/about_mac"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

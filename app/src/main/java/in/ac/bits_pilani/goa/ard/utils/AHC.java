@@ -30,4 +30,9 @@ public class AHC {
      * Version of Realm database.
      */
     public static final int REALM_ARD_DATABASE_SCHEMA = 0;
+
+    /**
+     * Firebase Database Reference for aboutMAC
+     */
+    public static final String FDR_ABOUT_MAC= "aboutMAC";
 }
