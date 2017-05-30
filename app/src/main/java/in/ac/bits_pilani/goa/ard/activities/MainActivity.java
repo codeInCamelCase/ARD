@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity
     /**
      * Duration of crossfade animation between in nav drawer background images (in milliseconds).
      */
-    public static final int navDrawerAnimationDuration = 50;
+    public static final int NAV_DRAWER_BACKGROUND_ANIM_DUR = 50;
 
     /**
      * Toolbar for MainActivity.
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity
             Glide.with(this)
                     .load(navDrawerImageURL)
                     .transition(DrawableTransitionOptions.withCrossFade()
-                            .crossFade(navDrawerAnimationDuration)
+                            .crossFade(NAV_DRAWER_BACKGROUND_ANIM_DUR)
                     )
                     .apply(navDrawerImageOptions)
                     .into(navDrawerImage);

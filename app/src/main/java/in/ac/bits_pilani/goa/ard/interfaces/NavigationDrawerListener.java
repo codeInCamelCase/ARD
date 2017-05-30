@@ -56,6 +56,11 @@ public class NavigationDrawerListener implements ValueEventListener {
 
     /**
      * Constructor with all fields required.
+     * @param context for glide image loading.
+     * @param navDrawerTitle the Textview corresponding to tile.
+     * @param navDrawerSubtitle the Textview corresponding to subtitle.
+     * @param navDrawerImage the imageview corresponding to background.
+     * @param tag for errors arising in this class.
      */
     public NavigationDrawerListener(
             final Context context,
@@ -78,7 +83,6 @@ public class NavigationDrawerListener implements ValueEventListener {
                     .getValue(String.class);
 
             if (!Objects.equals(navDrawerTitleText, MainActivity.navDrawerTitleText)) {
-                Log.d(TAG, "onDataChange: navDrawerTitle");
                 navDrawerTitle.setText(navDrawerTitleText);
                 MainActivity.navDrawerTitleText = navDrawerTitleText;
             }
@@ -89,7 +93,6 @@ public class NavigationDrawerListener implements ValueEventListener {
                     .getValue(String.class);
 
             if (!Objects.equals(navDrawerSubtitleText, MainActivity.navDrawerSubtitleText)) {
-                Log.d(TAG, "onDataChange: navDrawerSubtitle");
                 navDrawerSubtitle.setText(navDrawerSubtitleText);
                 MainActivity.navDrawerSubtitleText = navDrawerSubtitleText;
             }
@@ -102,7 +105,6 @@ public class NavigationDrawerListener implements ValueEventListener {
                 navDrawerImageList.add(childSnapshot.getValue(String.class));
 
             if (!Objects.equals(navDrawerImageList, MainActivity.navDrawerImageList)) {
-                Log.d(TAG, "onDataChange: navDrawerImageList");
                 final Random rand = new Random();
                 final String navDrawerImageURL = navDrawerImageList
                         .get(rand.nextInt(navDrawerImageList.size()));
@@ -112,7 +114,7 @@ public class NavigationDrawerListener implements ValueEventListener {
                 Glide.with(context)
                         .load(navDrawerImageURL)
                         .transition(DrawableTransitionOptions.withCrossFade()
-                                .crossFade(MainActivity.navDrawerAnimationDuration)
+                                .crossFade(MainActivity.NAV_DRAWER_BACKGROUND_ANIM_DUR)
                         )
                         .apply(navDrawerImageOptions)
                         .into(navDrawerImage);
