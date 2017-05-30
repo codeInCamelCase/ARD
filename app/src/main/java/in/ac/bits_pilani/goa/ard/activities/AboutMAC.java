@@ -31,12 +31,6 @@ import in.ac.bits_pilani.goa.ard.utils.AHC;
 public class AboutMAC extends AppCompatActivity {
 
     /**
-     * Constructur for aboutmac.
-     */
-    public AboutMAC() {
-    }
-
-    /**
      * Textview for AboutMAC.
      */
     @BindView( R.id.about_mac_text)
@@ -79,6 +73,12 @@ public class AboutMAC extends AppCompatActivity {
      */
     String url;
 
+    /**
+     * Constructur for aboutmac.
+     */
+    public AboutMAC() {
+    }
+    
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
