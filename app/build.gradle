@@ -81,7 +81,8 @@ dependencies {
     compile "com.google.firebase:firebase-storage:${firebaseVer}"
     compile "com.google.firebase:firebase-auth:${firebaseVer}"
     compile "com.google.firebase:firebase-messaging:${firebaseVer}"
-
+    compile 'com.google.firebase:firebase-messaging:10.2.6'
+    
     //Unit test compiles
     testCompile "junit:junit:${junitVer}"
     testCompile "org.mockito:mockito-core:${mockitoVer}"
