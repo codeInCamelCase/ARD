@@ -24,58 +24,58 @@ import in.ac.bits_pilani.goa.ard.R;
 import in.ac.bits_pilani.goa.ard.utils.AHC;
 
 /**
- * This class is to display details about MAC
+ * This class is to display details about MAC.
  * @author Aayush
  * @version 1.0
  */
 public class AboutMAC extends AppCompatActivity {
 
     /**
-     * Constructur for aboutmac
+     * Constructur for aboutmac.
      */
     public AboutMAC() {
     }
 
     /**
-     * Textview for AboutMAC
+     * Textview for AboutMAC.
      */
-    @BindView(R.id.about_mac_text)
+    @BindView( R.id.about_mac_text)
     TextView textView;
 
     /**
-     * Imageview for mac image
+     * Imageview for mac image.
      */
-    @BindView(R.id.about_mac_image)
+    @BindView( R.id.about_mac_image)
     ImageView imageView;
 
     /**
-     * Toolbar for AboutMAC
+     * Toolbar for AboutMAC.
      */
-    @BindView(R.id.toolbar_about_mac)
+    @BindView( R.id.toolbar_about_mac)
     Toolbar toolbar;
 
     /**
-     * Database reference
+     * Database reference.
      */
     DatabaseReference databaseReference;
 
     /**
-     * Valueeventlistener
+     * Valueeventlistener.
      */
     ValueEventListener listener;
 
     /**
-     * SharedPreferences
+     * SharedPreferences.
      */
     SharedPreferences sharedPreferences;
 
     /**
-     * String html
+     * String html.
      */
     String html;
 
     /**
-     * String url
+     * String url.
      */
     String url;
 
@@ -94,22 +94,18 @@ public class AboutMAC extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         sharedPreferences = getSharedPreferences("aboutMAC", Context.MODE_PRIVATE);
-        try {
-            html = sharedPreferences.getString("html", "");
-            url = sharedPreferences.getString("imageUrl", "");
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                textView.setText(Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY));
-            } else {
-                textView.setText(Html.fromHtml(html));
-            }
-            Glide.with(getApplicationContext()).load(url)
-                    .thumbnail(0.5f)
-                    .crossFade()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(imageView);
-        } catch (final Error e) {
-            Log.e(AHC.TAG, e.toString());
+        html = sharedPreferences.getString("html", "");
+        url = sharedPreferences.getString("imageUrl", "");
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            textView.setText(Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            textView.setText(Html.fromHtml(html));
         }
+        Glide.with(getApplicationContext()).load(url)
+                .thumbnail(0.5f)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
         databaseReference = FirebaseDatabase.getInstance().getReference().child(AHC.FDR_ABOUT_MAC);
         listener = databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
