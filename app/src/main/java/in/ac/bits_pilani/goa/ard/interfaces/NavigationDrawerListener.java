@@ -21,10 +21,10 @@ import in.ac.bits_pilani.goa.ard.activities.MainActivity;
 import in.ac.bits_pilani.goa.ard.utils.AHC;
 
 /**
- * NavigationDrawerListener Class
+ * NavigationDrawerListener Class.
  * reflects changes from firebase regarding nav drawer header
  *
- * @author rushi
+ * @author Rushikesh Jogdand
  */
 
 public class NavigationDrawerListener implements ValueEventListener {
@@ -35,7 +35,7 @@ public class NavigationDrawerListener implements ValueEventListener {
     private final Context context;
 
     /**
-     * Textview ocrresponding to nav drawer title
+     * Textview corresponding to nav drawer title.
      */
     private final TextView navDrawerTitle;
 
@@ -56,23 +56,18 @@ public class NavigationDrawerListener implements ValueEventListener {
 
     /**
      * Constructor with all fields required.
-     * @param context
-     * @param navDrawerTitle
-     * @param navDrawerSubtitle
-     * @param navDrawerImage
-     * @param TAG
      */
     public NavigationDrawerListener(
             final Context context,
             final TextView navDrawerTitle,
             final TextView navDrawerSubtitle,
             final ImageView navDrawerImage,
-            final String TAG) {
+            final String tag) {
         this.context = context;
         this.navDrawerTitle = navDrawerTitle;
         this.navDrawerSubtitle = navDrawerSubtitle;
         this.navDrawerImage = navDrawerImage;
-        this.TAG = TAG + " NavigationDrawerListener";
+        this.TAG = tag + " NavigationDrawerListener";
     }
 
     @Override
@@ -103,9 +98,8 @@ public class NavigationDrawerListener implements ValueEventListener {
                 && dataSnapshot.child(AHC.FDR_NAV_DRAWER_IMAGE_LIST).getChildrenCount() > 0) {
             final ArrayList<String> navDrawerImageList = new ArrayList<>();
             for (final DataSnapshot childSnapshot
-                    : dataSnapshot.child(AHC.FDR_NAV_DRAWER_IMAGE_LIST).getChildren()) {
+                    : dataSnapshot.child(AHC.FDR_NAV_DRAWER_IMAGE_LIST).getChildren())
                 navDrawerImageList.add(childSnapshot.getValue(String.class));
-            }
 
             if (!Objects.equals(navDrawerImageList, MainActivity.navDrawerImageList)) {
                 Log.d(TAG, "onDataChange: navDrawerImageList");

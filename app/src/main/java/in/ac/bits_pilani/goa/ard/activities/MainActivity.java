@@ -10,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -58,10 +57,10 @@ public class MainActivity extends AppCompatActivity
      * Chosen randomly from navDrawerImageList when app launches
      * and when corresponding list changes in firebase.
      */
-    public static String navDrawerImageURL = null;
+    public static String navDrawerImageURL;
 
     /**
-     * Duration of crossfade animation between in nav drawer background images (in milliseconds)
+     * Duration of crossfade animation between in nav drawer background images (in milliseconds).
      */
     public static final int navDrawerAnimationDuration = 50;
 
@@ -95,9 +94,13 @@ public class MainActivity extends AppCompatActivity
     private final String TAG = AHC.TAG + ".activities." + getClass().getSimpleName();
 
     /**
-     * Variables related to navigation drawer.
+     * Firebase db ref for navigation drawer.
      */
     private DatabaseReference navDrawerDBRef;
+
+    /**
+     * navDrawerListener listens for db changes for nav drawer.
+     */
     private NavigationDrawerListener navDrawerListener;
 
     @Override
@@ -141,13 +144,13 @@ public class MainActivity extends AppCompatActivity
             final RequestOptions navDrawerImageOptions = new RequestOptions()
                     .placeholder(this.getDrawable(R.drawable.nav_drawer_default_image));
 
-                Glide.with(this)
-                        .load(navDrawerImageURL)
-                        .transition(DrawableTransitionOptions.withCrossFade()
-                                .crossFade(navDrawerAnimationDuration)
-                        )
-                        .apply(navDrawerImageOptions)
-                        .into(navDrawerImage);
+            Glide.with(this)
+                    .load(navDrawerImageURL)
+                    .transition(DrawableTransitionOptions.withCrossFade()
+                            .crossFade(navDrawerAnimationDuration)
+                    )
+                    .apply(navDrawerImageOptions)
+                    .into(navDrawerImage);
         }
 
         navDrawerListener = new NavigationDrawerListener(
