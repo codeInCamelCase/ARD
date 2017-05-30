@@ -74,11 +74,26 @@ public class AboutMAC extends AppCompatActivity {
     String url;
 
     /**
+     * String html_string.
+     */
+    String html_string="html";
+
+    /**
+     * String image_url_string.
+     */
+    String image_url_string="imageUrl";
+
+    /**
+     * float magic_number;
+     */
+    public static float magic_number = 0.5f;
+
+    /**
      * Constructur for aboutmac.
      */
     public AboutMAC() {
     }
-    
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,15 +109,15 @@ public class AboutMAC extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         sharedPreferences = getSharedPreferences("aboutMAC", Context.MODE_PRIVATE);
-        final String html1 = sharedPreferences.getString("html", "");
-        final String url1 = sharedPreferences.getString("imageUrl", "");
+        html = sharedPreferences.getString(html_string, "");
+        url = sharedPreferences.getString(image_url_string, "");
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            textView.setText(Html.fromHtml(html1, Html.FROM_HTML_MODE_LEGACY));
+            textView.setText(Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY));
         } else {
-            textView.setText(Html.fromHtml(html1));
+            textView.setText(Html.fromHtml(html));
         }
-        Glide.with(getApplicationContext()).load(url1)
-                .thumbnail(0.5f)
+        Glide.with(getApplicationContext()).load(url)
+                .thumbnail(magic_number)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
@@ -110,21 +125,21 @@ public class AboutMAC extends AppCompatActivity {
         listener = databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(final DataSnapshot dataSnapshot) {
-                html = dataSnapshot.child("html").getValue(String.class);
-                url = dataSnapshot.child("imageUrl").getValue(String.class);
+                html = dataSnapshot.child(html_string).getValue(String.class);
+                url = dataSnapshot.child(image_url_string).getValue(String.class);
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                     textView.setText(Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY));
                 } else {
                     textView.setText(Html.fromHtml(html));
                 }
                 Glide.with(getApplicationContext()).load(url)
-                        .thumbnail(0.5f)
+                        .thumbnail(magic_number)
                         .crossFade()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(imageView);
                 final SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("html", html);
-                editor.putString("imageUrl", url);
+                editor.putString(html_string, html);
+                editor.putString(image_url_string, url);
                 editor.apply();
             }
 
