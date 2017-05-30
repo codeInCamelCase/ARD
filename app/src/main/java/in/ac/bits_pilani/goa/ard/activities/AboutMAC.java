@@ -30,7 +30,6 @@ import in.ac.bits_pilani.goa.ard.utils.AHC;
  */
 public class AboutMAC extends AppCompatActivity {
 
-
     /**
      * float magicnumber.
      */
