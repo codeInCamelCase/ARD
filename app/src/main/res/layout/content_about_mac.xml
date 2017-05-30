@@ -12,6 +12,7 @@ tools:showIn="@layout/activity_about_mac">
         android:id="@+id/about_mac_image"
         android:layout_width="match_parent"
         android:layout_height="150dp"
+        android:scaleType="centerCrop"
         android:background="@color/blue_900"
         android:src="@drawable/common_google_signin_btn_icon_light" />
 

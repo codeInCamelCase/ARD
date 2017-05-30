@@ -115,8 +115,8 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-        } else if (id == R.id.nav_about_app){
-            Intent intent=new Intent(this,AboutMAC.class);
+        } else if (id == R.id.nav_about_app) {
+            final Intent intent = new Intent(this, AboutMAC.class);
             startActivity(intent);
         }
 
