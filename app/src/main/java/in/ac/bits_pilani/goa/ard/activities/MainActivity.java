@@ -13,10 +13,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import in.ac.bits_pilani.goa.ard.R;
+import in.ac.bits_pilani.goa.ard.interfaces.NavigationDrawerListener;
 import in.ac.bits_pilani.goa.ard.utils.AHC;
 
 /**
@@ -25,6 +36,33 @@ import in.ac.bits_pilani.goa.ard.utils.AHC;
  */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    /**
+     * The title of nav Drawer.
+     */
+    public static String navDrawerTitleText;
+
+    /**
+     * The subtitle of nav Drawer.
+     */
+    public static String navDrawerSubtitleText;
+
+    /**
+     * The array of urls of images used as nav drawer background.
+     */
+    public static ArrayList<String> navDrawerImageList;
+
+    /**
+     * URL of nav drawer background for current instance of app.
+     * Chosen randomly from navDrawerImageList when app launches
+     * and when corresponding list changes in firebase.
+     */
+    public static String navDrawerImageURL;
+
+    /**
+     * Duration of crossfade animation between in nav drawer background images (in milliseconds).
+     */
+    public static final int NAV_DRAWER_BACKGROUND_ANIM_DUR = 50;
 
     /**
      * Toolbar for MainActivity.
@@ -55,6 +93,16 @@ public class MainActivity extends AppCompatActivity
      */
     private final String TAG = AHC.TAG + ".activities." + getClass().getSimpleName();
 
+    /**
+     * Firebase db ref for navigation drawer.
+     */
+    private DatabaseReference navDrawerDBRef;
+
+    /**
+     * navDrawerListener listens for db changes for nav drawer.
+     */
+    private NavigationDrawerListener navDrawerListener;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +125,41 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
+        navDrawerDBRef = FirebaseDatabase.getInstance().getReference(AHC.FDR_NAV_DRAWER);
+
+        final View headerView = navigationView.getHeaderView(0);
+        final ImageView navDrawerImage = ButterKnife.findById(headerView, R.id.nav_drawer_image);
+        final TextView navDrawerTitle = ButterKnife.findById(headerView, R.id.nav_drawer_title);
+        final TextView navDrawerSubtitle = ButterKnife.findById(headerView, R.id.nav_drawer_subtitle);
+
+        if (navDrawerTitleText != null) {
+            navDrawerTitle.setText(navDrawerTitleText);
+        }
+
+        if (navDrawerSubtitleText != null) {
+            navDrawerSubtitle.setText(navDrawerSubtitleText);
+        }
+
+        if (navDrawerImageURL != null) {
+            final RequestOptions navDrawerImageOptions = new RequestOptions()
+                    .placeholder(this.getDrawable(R.drawable.nav_drawer_default_image));
+
+            Glide.with(this)
+                    .load(navDrawerImageURL)
+                    .transition(DrawableTransitionOptions.withCrossFade()
+                            .crossFade(NAV_DRAWER_BACKGROUND_ANIM_DUR)
+                    )
+                    .apply(navDrawerImageOptions)
+                    .into(navDrawerImage);
+        }
+
+        navDrawerListener = new NavigationDrawerListener(
+                this,
+                navDrawerTitle,
+                navDrawerSubtitle,
+                navDrawerImage,
+                TAG);
+        navDrawerDBRef.addValueEventListener(navDrawerListener);
     }
 
     @Override
@@ -133,5 +216,11 @@ public class MainActivity extends AppCompatActivity
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onStop() {
+        navDrawerDBRef.removeEventListener(navDrawerListener);
+        super.onStop();
     }
 }

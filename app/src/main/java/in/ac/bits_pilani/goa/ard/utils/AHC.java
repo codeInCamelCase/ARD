@@ -31,4 +31,25 @@ public class AHC {
      */
     public static final int REALM_ARD_DATABASE_SCHEMA = 0;
 
+    /**
+     * Firebase node name of navigation drawer.
+     */
+    public static final String FDR_NAV_DRAWER = "navDrawer";
+
+    /**
+     * Firebase node name of child "title" of navigation drawer.
+     */
+    public static final String FDR_NAV_DRAWER_TITLE = "navDrawerTitle";
+
+    /**
+     * Firebase node name of child "subtitle" of navigation drawer.
+     */
+    public static final String FDR_NAV_DRAWER_SUBTITLE = "navDrawerSubtitle";
+
+    /**
+     * Firebase node name of child "image list" of navigation drawer.
+     * Image list is array of URLs (strings) of images used randomly as
+     * background image for navigation drawer.
+     */
+    public static final String FDR_NAV_DRAWER_IMAGE_LIST = "navDrawerImages";
 }
