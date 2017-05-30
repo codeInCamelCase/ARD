@@ -94,14 +94,14 @@ public class AboutMAC extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         sharedPreferences = getSharedPreferences("aboutMAC", Context.MODE_PRIVATE);
-        html = sharedPreferences.getString("html", "");
-        url = sharedPreferences.getString("imageUrl", "");
+        final String html1 = sharedPreferences.getString("html", "");
+        final String url1 = sharedPreferences.getString("imageUrl", "");
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            textView.setText(Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY));
+            textView.setText(Html.fromHtml(html1, Html.FROM_HTML_MODE_LEGACY));
         } else {
-            textView.setText(Html.fromHtml(html));
+            textView.setText(Html.fromHtml(html1));
         }
-        Glide.with(getApplicationContext()).load(url)
+        Glide.with(getApplicationContext()).load(url1)
                 .thumbnail(0.5f)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
