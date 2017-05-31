@@ -19,7 +19,7 @@ public class AHC {
     /**
      * Default Log tag for project.
      */
-    public static final String TAG = APPLICATION_ID;
+    public static final String TAG = "MAC_ARD";
 
     /**
      * Name of Realm database.
@@ -30,5 +30,25 @@ public class AHC {
      * Version of Realm database.
      */
     public static final int REALM_ARD_DATABASE_SCHEMA = 0;
+
+    /**
+     * ID no of forum fragment.
+     */
+    public static final int FORUM_FID = 0;
+
+    /**
+     * ID no of home fragment.
+     */
+    public static final int HOME_FID = 1;
+
+    /**
+     * ID no of chat fragment.
+     */
+    public static final int CHAT_FID = 2;
+
+    /**
+     * Fragment title key.
+     */
+    public static final String FRAGMENT_TITLE_KEY = "key";
 
 }
