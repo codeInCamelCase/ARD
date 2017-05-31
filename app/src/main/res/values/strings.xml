@@ -15,4 +15,6 @@
     <string name="activity_main_drawer_item_communicate">Communicate</string>
     <string name="activity_main_drawer_item_share">Share</string>
     <string name="seactivity_main_drawer_item_send">Send</string>
+    <string name="activity_main_drawer_item_settings">Settings</string>
+
 </resources>

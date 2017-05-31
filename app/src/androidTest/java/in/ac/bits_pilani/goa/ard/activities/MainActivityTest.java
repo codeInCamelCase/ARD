@@ -116,9 +116,10 @@ public class MainActivityTest {
 
     @Test
     public void testOptionsMenuItems() throws Exception {
-        onView(withText("Settings")).check(doesNotExist());
+        //onView(withText("Settings")).check(doesNotExist());
         openActionBarOverflowOrOptionsMenu(context);
         onView(withText("Settings")).check(matches(isDisplayed())).perform(click());
+        Espresso.pressBack();
     }
 
     @Test
@@ -146,6 +147,12 @@ public class MainActivityTest {
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
         onView(withText("Send")).check(matches(isDisplayed())).perform(click());
         onView(withId(R.id.drawer_layout)).check(matches(DrawerMatchers.isClosed()));
+
+        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        onView(withText("Settings")).check(matches(isDisplayed())).perform(click());
+        Espresso.pressBack();
+        onView(withId(R.id.drawer_layout)).check(matches(DrawerMatchers.isClosed()));
+
 
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
         onView(withText("null")).check(doesNotExist());
