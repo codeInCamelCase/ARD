@@ -15,4 +15,16 @@
     <string name="activity_main_drawer_item_communicate">Communicate</string>
     <string name="activity_main_drawer_item_share">Share</string>
     <string name="seactivity_main_drawer_item_send">Send</string>
+    <string name="handleFirebaseMessages_bigTitle">bigTitle</string>
+    <string name="handleFirebaseMessages_bigSummaryText">bigSummaryText</string>
+    <string name="handleFirebaseMessages_type">type</string>
+    <string name="handleFirebaseMessages_id">id</string>
+    <string name="handleFirebaseMessages_smallTitle">smallTitle</string>
+    <string name="handleFirebaseMessages_smallSubTitle">smallSubTitle</string>
+    <string name="handleFirebaseMessages_link">link</string>
+    <string name="handleFirebaseMessages_className">className</string>
+    <string name="handleFirebaseMessages_imageUrl">imageUrl</string>
+    <string name="handleFirebaseMessages_contentInfo">contentInfo</string>
+    <string name="handleFirebaseMessages_ticker">ticker</string>
+    <string name="handleFirebaseMessages_bigSubTitle">bigSubTitle</string>
 </resources>
