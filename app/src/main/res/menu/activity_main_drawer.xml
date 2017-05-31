@@ -30,6 +30,10 @@
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
                 android:title="@string/seactivity_main_drawer_item_send" />
+            <item
+                android:id="@+id/nav_about_app"
+                android:icon="@drawable/ic_aboutapp"
+                android:title="@string/nav_about_mac"/>
         </menu>
     </item>
 

@@ -1,5 +1,6 @@
 package in.ac.bits_pilani.goa.ard.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -129,6 +130,9 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        } else if (id == R.id.nav_about_app) {
+            final Intent intent = new Intent(this, AboutMAC.class);
+            startActivity(intent);
         }
 
         drawer.closeDrawer(GravityCompat.START);

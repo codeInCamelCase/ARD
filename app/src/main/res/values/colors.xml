@@ -291,4 +291,5 @@
     <color name="dark_bg_light_secondary_text">#B3FFFFFF</color>
     <color name="dark_bg_light_disabled_text">#80FFFFFF</color>
     <color name="dark_bg_light_hint_text">#80FFFFFF</color>
+    <color name="facebook_primary">#3b5999</color>
 </resources>
