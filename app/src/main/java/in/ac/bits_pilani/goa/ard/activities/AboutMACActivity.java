@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -128,7 +127,7 @@ public class AboutMACActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(final DatabaseError databaseError) {
-                Log.e(TAG, databaseError.toString());
+                System.out.println("DATABASE ERROR");
             }
         });
     }

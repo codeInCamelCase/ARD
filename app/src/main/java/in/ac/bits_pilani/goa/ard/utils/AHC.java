@@ -55,4 +55,5 @@ public class AHC {
      * String ard tag small.
      */
     public static final String SHORT_TAG = "ard";
+
 }
