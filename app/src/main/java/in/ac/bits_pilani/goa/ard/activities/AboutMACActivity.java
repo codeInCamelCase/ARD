@@ -77,7 +77,7 @@ public class AboutMACActivity extends AppCompatActivity {
     /**
      * Tag for about mac activity.
      */
-    private final String TAG = AHC.TAG + ".activities." + getClass().getSimpleName();
+    private final String TAG = AHC.SHORT_TAG + ".activities." + getClass().getSimpleName();
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
