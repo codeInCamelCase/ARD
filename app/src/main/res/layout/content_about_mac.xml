@@ -9,6 +9,7 @@ tools:context="in.ac.bits_pilani.goa.ard.activities.AboutMACActivity"
 tools:showIn="@layout/activity_about_mac">
 
     <ImageView
+        android:contentDescription="@string/imageview_about_mac_description"
         android:id="@+id/about_mac_image"
         android:layout_width="match_parent"
         android:layout_height="@dimen/about_mac_image_height"

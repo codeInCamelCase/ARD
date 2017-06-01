@@ -17,4 +17,5 @@
     <string name="seactivity_main_drawer_item_send">Send</string>
     <string name="about_mac">AboutMAC</string>
     <string name="nav_about_mac">About App</string>
+    <string name="imageview_about_mac_description">MAC LOGO</string>
 </resources>
