@@ -23,6 +23,11 @@ import butterknife.ButterKnife;
 import in.ac.bits_pilani.goa.ard.R;
 import in.ac.bits_pilani.goa.ard.utils.AHC;
 
+/**
+ * AboutMac class.
+ * @author Aayush.
+ * @version 1.0.
+ */
 
 public class AboutMAC extends AppCompatActivity {
 
@@ -72,17 +77,24 @@ public class AboutMAC extends AppCompatActivity {
     /**
      * String shtml.
      */
-    String shtml="html";
+    String shtml = "html";
 
     /**
      * String surl.
      */
-    String surl="imageUrl";
+    String surl = "imageUrl";
 
     /**
      * Float magicnumber.
      */
-    float magicnumber=0.5f;
+    float magicnumber = 0.5f;
+
+    /**
+     * constructor.
+     */
+    public AboutMAC(){
+
+    }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -112,7 +124,7 @@ public class AboutMAC extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference().child(AHC.FDR_ABOUT_MAC);
         listener = databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(final DataSnapshot dataSnapshot) {
                 html = dataSnapshot.child(shtml).getValue(String.class);
                 url = dataSnapshot.child(surl).getValue(String.class);
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
@@ -125,15 +137,15 @@ public class AboutMAC extends AppCompatActivity {
                         .crossFade()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(imageView);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
+                final SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(shtml, html);
                 editor.putString(surl, url);
                 editor.apply();
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e(AHC.TAG,databaseError.toString());
+            public void onCancelled(final DatabaseError databaseError) {
+                Log.e(AHC.TAG, databaseError.toString());
             }
         });
     }
