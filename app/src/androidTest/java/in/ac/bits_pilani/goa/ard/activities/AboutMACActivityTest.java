@@ -5,11 +5,15 @@ import android.support.test.runner.AndroidJUnit4;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import in.ac.bits_pilani.goa.ard.R;
+import in.ac.bits_pilani.goa.ard.utils.AHC;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNotNull;
@@ -56,4 +60,11 @@ public class AboutMACActivityTest {
         TextView textView = (TextView) activityTestRule.getActivity().findViewById(R.id.about_mac_text);
         assertNotNull(textView);
     }
+
+    @Test
+    public void onStart() throws Exception {
+        DatabaseReference databasereference = FirebaseDatabase.getInstance().getReference().child(AHC.FDR_ABOUT_MAC);
+        assertNotNull(databasereference);
+    }
+    
 }
