@@ -92,15 +92,15 @@ public class AboutMAC extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         sharedPreferences = getSharedPreferences("aboutMAC", Context.MODE_PRIVATE);
-        html = sharedPreferences.getString(AHC.shtml, "");
-        url = sharedPreferences.getString(AHC.surl, "");
+        html = sharedPreferences.getString(AHC.HTML_ABOUT_MAC, "");
+        url = sharedPreferences.getString(AHC.IMAGEURL_ABOUT_MAC, "");
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             textView.setText(Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY));
         } else {
             textView.setText(Html.fromHtml(html));
         }
         Glide.with(getApplicationContext()).load(url)
-                .thumbnail(AHC.magicnumber)
+                .thumbnail(AHC.MAGICNUMBER_ABOUT_MAC)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
@@ -108,21 +108,21 @@ public class AboutMAC extends AppCompatActivity {
         listener = databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(final DataSnapshot dataSnapshot) {
-                html = dataSnapshot.child(AHC.shtml).getValue(String.class);
-                url = dataSnapshot.child(AHC.surl).getValue(String.class);
+                html = dataSnapshot.child(AHC.HTML_ABOUT_MAC).getValue(String.class);
+                url = dataSnapshot.child(AHC.IMAGEURL_ABOUT_MAC).getValue(String.class);
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                     textView.setText(Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY));
                 } else {
                     textView.setText(Html.fromHtml(html));
                 }
                 Glide.with(getApplicationContext()).load(url)
-                        .thumbnail(AHC.magicnumber)
+                        .thumbnail(AHC.MAGICNUMBER_ABOUT_MAC)
                         .crossFade()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(imageView);
                 final SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(AHC.shtml, html);
-                editor.putString(AHC.surl, url);
+                editor.putString(AHC.HTML_ABOUT_MAC, html);
+                editor.putString(AHC.IMAGEURL_ABOUT_MAC, url);
                 editor.apply();
             }
 

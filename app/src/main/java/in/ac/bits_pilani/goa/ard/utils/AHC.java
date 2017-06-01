@@ -39,16 +39,16 @@ public class AHC {
     /**
      * String shtml.
      */
-    public static final String shtml = "html";
+    public static final String HTML_ABOUT_MAC = "html";
 
     /**
      * String surl.
      */
-    public static final String surl = "imageUrl";
+    public static final String IMAGEURL_ABOUT_MAC = "imageUrl";
 
     /**
      * Float magicnumber.
      */
-    public static final float magicnumber = 0.5f;
+    public static final float MAGICNUMBER_ABOUT_MAC = 0.5f;
 
 }
