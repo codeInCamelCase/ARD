@@ -1,10 +1,8 @@
 package in.ac.bits_pilani.goa.ard.utils;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 /**
  * Tests for AHC.
@@ -12,7 +10,6 @@ import static org.junit.Assert.assertNotEquals;
  */
 
 public class AhcTest {
-
 
     @Test
     public void testClassName() throws Exception{

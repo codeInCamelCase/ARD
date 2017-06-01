@@ -141,9 +141,7 @@ public class MainActivityTest {
 
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
         onView(withText("null")).check(doesNotExist());
-
-        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
-        onView(withText("About App")).check(matches(isDisplayed())).perform(click());
+        
     }
 
 }
