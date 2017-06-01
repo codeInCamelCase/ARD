@@ -1,0 +1,59 @@
+package in.ac.bits_pilani.goa.ard.activities;
+
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import in.ac.bits_pilani.goa.ard.R;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertNotNull;
+
+/**
+ * Created by Aayush on 1/6/17.
+ * Test for AboutMAC activity.
+ */
+
+@RunWith(AndroidJUnit4.class)
+public class AboutMACActivityTest {
+
+    @Rule
+    public ActivityTestRule<AboutMACActivity> activityTestRule =
+            new ActivityTestRule<>(AboutMACActivity.class);
+
+    @Test
+    public void testClassName() throws Exception {
+        final String[] expected = new String[]{
+                "AboutMACActivity",
+        };
+        assertArrayEquals("Class name error", expected,
+                new String[]{activityTestRule.getActivity().getClass().getSimpleName()});
+    }
+
+    @Test
+    public void testParentActivityName() throws Exception {
+        final String[] expected = new String[]{
+                "AppCompatActivity",
+        };
+        assertArrayEquals("Parent class is wrong", expected,
+                new String[]{activityTestRule.getActivity()
+                        .getClass().getSuperclass().getSimpleName()});
+    }
+
+    @Test
+    public void testImageView() throws Exception {
+        ImageView imageView = (ImageView) activityTestRule.getActivity().findViewById(R.id.about_mac_image);
+        assertNotNull(imageView);
+    }
+
+    @Test
+    public void testTextView() throws Exception {
+        TextView textView = (TextView) activityTestRule.getActivity().findViewById(R.id.about_mac_text);
+        assertNotNull(textView);
+    }
+}

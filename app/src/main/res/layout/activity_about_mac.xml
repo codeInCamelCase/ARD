@@ -33,5 +33,4 @@ tools:context="in.ac.bits_pilani.goa.ard.activities.AboutMACActivity">
             android:layout_height="wrap_content" />
     </android.support.v4.widget.NestedScrollView>
 
-
 </android.support.design.widget.CoordinatorLayout>

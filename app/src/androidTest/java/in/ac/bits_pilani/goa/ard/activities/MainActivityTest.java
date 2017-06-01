@@ -5,11 +5,9 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.contrib.DrawerMatchers;
-import android.support.test.espresso.contrib.NavigationViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.view.GravityCompat;
-import android.util.Log;
 import android.view.Gravity;
 
 import org.junit.Before;
@@ -19,22 +17,16 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
 import in.ac.bits_pilani.goa.ard.R;
-import in.ac.bits_pilani.goa.ard.utils.AHC;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
-import static android.support.test.espresso.Espresso.openContextualActionModeOverflowMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for MainActivity
@@ -150,6 +142,8 @@ public class MainActivityTest {
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
         onView(withText("null")).check(doesNotExist());
 
+        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        onView(withText("About App")).check(matches(isDisplayed())).perform(click());
     }
 
 }
