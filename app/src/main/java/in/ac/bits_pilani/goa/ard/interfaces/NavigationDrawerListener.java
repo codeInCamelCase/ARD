@@ -47,32 +47,29 @@ public class NavigationDrawerListener implements ValueEventListener {
     /**
      * ImageView corresponding to nav drawer header background.
      */
-    private final ImageView navDrawerImage;
+    private final ImageView navDrawerImageView;
 
     /**
      * TAG for methods in this class.
      */
-    private final String TAG;
+    private final String TAG = AHC.TAG + ".interfaces." + getClass().getSimpleName();
 
     /**
      * Constructor with all fields required.
      * @param context for glide image loading.
      * @param navDrawerTitle the Textview corresponding to tile.
      * @param navDrawerSubtitle the Textview corresponding to subtitle.
-     * @param navDrawerImage the imageview corresponding to background.
-     * @param tag for errors arising in this class.
+     * @param navDrawerImageView the imageview corresponding to background.
      */
     public NavigationDrawerListener(
             final Context context,
             final TextView navDrawerTitle,
             final TextView navDrawerSubtitle,
-            final ImageView navDrawerImage,
-            final String tag) {
+            final ImageView navDrawerImageView) {
         this.context = context;
         this.navDrawerTitle = navDrawerTitle;
         this.navDrawerSubtitle = navDrawerSubtitle;
-        this.navDrawerImage = navDrawerImage;
-        this.TAG = tag + " NavigationDrawerListener";
+        this.navDrawerImageView = navDrawerImageView;
     }
 
     @Override
@@ -118,7 +115,7 @@ public class NavigationDrawerListener implements ValueEventListener {
                                 .crossFade(MainActivity.NAV_DRAWER_BACKGROUND_ANIM_DUR)
                         )
                         .apply(navDrawerImageOptions)
-                        .into(navDrawerImage);
+                        .into(navDrawerImageView);
 
                 MainActivity.navDrawerImageURL = navDrawerImageURL;
                 MainActivity.navDrawerImageList = navDrawerImageList;

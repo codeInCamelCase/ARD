@@ -76,16 +76,6 @@ public class MainActivity extends AppCompatActivity
     public static final int NAV_DRAWER_BACKGROUND_ANIM_DUR = 50;
 
     /**
-     * Firebase db ref for navigation drawer.
-     */
-    private DatabaseReference navDrawerDBRef;
-
-    /**
-     * navDrawerListener listens for db changes for nav drawer.
-     */
-    private NavigationDrawerListener navDrawerListener;
-
-    /**
      * Toolbar for MainActivity.
      */
     @BindView(R.id.toolbar_activity_main)
@@ -134,6 +124,15 @@ public class MainActivity extends AppCompatActivity
      */
     private ChatFragment chatFragment;
 
+    /**
+     * Firebase db ref for navigation drawer.
+     */
+    private DatabaseReference navDrawerDBRef;
+
+    /**
+     * navDrawerListener listens for db changes for nav drawer.
+     */
+    private NavigationDrawerListener navDrawerListener;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -159,7 +158,7 @@ public class MainActivity extends AppCompatActivity
 
         navDrawerDBRef = FirebaseDatabase.getInstance().getReference(AHC.FDR_NAV_DRAWER);
 
-        View headerView = navigationView.getHeaderView(0);
+        final View headerView = navigationView.getHeaderView(0);
         final ImageView navDrawerImage = ButterKnife.findById(headerView, R.id.nav_drawer_image);
         final TextView navDrawerTitle = ButterKnife.findById(headerView, R.id.nav_drawer_title);
         final TextView navDrawerSubtitle = ButterKnife.findById(headerView, R.id.nav_drawer_subtitle);
@@ -174,7 +173,7 @@ public class MainActivity extends AppCompatActivity
 
         if (navDrawerImageURL != null) {
             final RequestOptions navDrawerImageOptions = new RequestOptions()
-                    .placeholder(this.getDrawable(R.drawable.nav_drawer_default_image));
+                    .placeholder(getDrawable(R.drawable.nav_drawer_default_image));
 
             Glide.with(this)
                     .load(navDrawerImageURL)
@@ -189,8 +188,7 @@ public class MainActivity extends AppCompatActivity
                 this,
                 navDrawerTitle,
                 navDrawerSubtitle,
-                navDrawerImage,
-                TAG);
+                navDrawerImage);
 
         fragmentManager = getSupportFragmentManager();
 
