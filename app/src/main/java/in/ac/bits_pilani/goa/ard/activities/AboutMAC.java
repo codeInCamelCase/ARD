@@ -25,7 +25,7 @@ import in.ac.bits_pilani.goa.ard.utils.AHC;
 
 /**
  * AboutMac class.
- * @author Aayush.
+ * @author Aayush
  * @version 1.0.
  */
 
