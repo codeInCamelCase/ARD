@@ -29,7 +29,7 @@ import in.ac.bits_pilani.goa.ard.utils.AHC;
  * @version 1.0.
  */
 
-public class AboutMAC extends AppCompatActivity {
+public class AboutMACActivity extends AppCompatActivity {
 
     /**
      * About Mac Text.
