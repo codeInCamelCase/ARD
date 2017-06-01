@@ -36,4 +36,19 @@ public class AHC {
      */
     public static final String FDR_ABOUT_MAC = "aboutMAC";
 
+    /**
+     * String shtml.
+     */
+    public static final String shtml = "html";
+
+    /**
+     * String surl.
+     */
+    public static final String surl = "imageUrl";
+
+    /**
+     * Float magicnumber.
+     */
+    public static final float magicnumber = 0.5f;
+
 }

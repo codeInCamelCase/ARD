@@ -75,26 +75,9 @@ public class AboutMAC extends AppCompatActivity {
     String url;
 
     /**
-     * String shtml.
+     * Tag for about mac activity.
      */
-    String shtml = "html";
-
-    /**
-     * String surl.
-     */
-    String surl = "imageUrl";
-
-    /**
-     * Float magicnumber.
-     */
-    float magicnumber = 0.5f;
-
-    /**
-     * constructor.
-     */
-    public AboutMAC(){
-
-    }
+    private final String TAG = AHC.TAG + ".activities." + getClass().getSimpleName();
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -109,15 +92,15 @@ public class AboutMAC extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         sharedPreferences = getSharedPreferences("aboutMAC", Context.MODE_PRIVATE);
-        html = sharedPreferences.getString(shtml, "");
-        url = sharedPreferences.getString(surl, "");
+        html = sharedPreferences.getString(AHC.shtml, "");
+        url = sharedPreferences.getString(AHC.surl, "");
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             textView.setText(Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY));
         } else {
             textView.setText(Html.fromHtml(html));
         }
         Glide.with(getApplicationContext()).load(url)
-                .thumbnail(magicnumber)
+                .thumbnail(AHC.magicnumber)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
@@ -125,27 +108,27 @@ public class AboutMAC extends AppCompatActivity {
         listener = databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(final DataSnapshot dataSnapshot) {
-                html = dataSnapshot.child(shtml).getValue(String.class);
-                url = dataSnapshot.child(surl).getValue(String.class);
+                html = dataSnapshot.child(AHC.shtml).getValue(String.class);
+                url = dataSnapshot.child(AHC.surl).getValue(String.class);
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                     textView.setText(Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY));
                 } else {
                     textView.setText(Html.fromHtml(html));
                 }
                 Glide.with(getApplicationContext()).load(url)
-                        .thumbnail(magicnumber)
+                        .thumbnail(AHC.magicnumber)
                         .crossFade()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(imageView);
                 final SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(shtml, html);
-                editor.putString(surl, url);
+                editor.putString(AHC.shtml, html);
+                editor.putString(AHC.surl, url);
                 editor.apply();
             }
 
             @Override
             public void onCancelled(final DatabaseError databaseError) {
-                Log.e(AHC.TAG, databaseError.toString());
+                Log.e(TAG, databaseError.toString());
             }
         });
     }

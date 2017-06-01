@@ -13,7 +13,6 @@ tools:showIn="@layout/activity_about_mac">
         android:layout_width="match_parent"
         android:layout_height="@dimen/about_mac_image_height"
         android:scaleType="centerCrop"
-        android:background="@color/blue_900"
         android:src="@drawable/common_google_signin_btn_icon_light" />
 
 <TextView
