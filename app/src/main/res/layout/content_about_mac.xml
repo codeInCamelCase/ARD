@@ -5,7 +5,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:id="@+id/content_about_mac"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-tools:context="in.ac.bits_pilani.goa.ard.activities.AboutMAC"
+tools:context="in.ac.bits_pilani.goa.ard.activities.AboutMACActivity"
 tools:showIn="@layout/activity_about_mac">
 
     <ImageView
