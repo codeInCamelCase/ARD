@@ -1,6 +1,7 @@
 package in.ac.bits_pilani.goa.ard.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.contrib.DrawerActions;
@@ -27,6 +28,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Tests for MainActivity
@@ -144,4 +146,10 @@ public class MainActivityTest {
         
     }
 
+    @Test
+    public void testIntent() throws Exception {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        assertNotNull(sendIntent.getPackage());
+    }
 }

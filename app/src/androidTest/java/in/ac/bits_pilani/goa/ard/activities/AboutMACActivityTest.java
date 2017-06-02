@@ -45,6 +45,7 @@ public class AboutMACActivityTest {
         AboutMACActivity activity = activityTestRule.getActivity();
         assertNotNull(activity);
     }
+
     @Test
     public void testClassName() throws Exception {
         final String[] expected = new String[]{
