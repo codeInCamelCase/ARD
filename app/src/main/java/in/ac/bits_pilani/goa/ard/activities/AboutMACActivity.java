@@ -128,7 +128,7 @@ public class AboutMACActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(final DatabaseError databaseError) {
-                Log.e(TAG,databaseError.toString());
+                Log.e(TAG, databaseError.toString());
             }
         });
     }
