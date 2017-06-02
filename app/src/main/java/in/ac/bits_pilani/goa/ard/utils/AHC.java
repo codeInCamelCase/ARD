@@ -19,7 +19,7 @@ public class AHC {
     /**
      * Default Log tag for project.
      */
-    public static final String TAG = "mac.ard";
+    public static final String TAG = APPLICATION_ID;
 
     /**
      * Name of Realm database.
