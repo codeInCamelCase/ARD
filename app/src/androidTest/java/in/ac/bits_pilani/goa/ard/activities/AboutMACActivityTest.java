@@ -110,7 +110,7 @@ public class AboutMACActivityTest {
 
             @Override
             public void onCancelled(final DatabaseError databaseError) {
-                int logint = Log.e(AHC.TAG,databaseError.toString());
+                int logint = Log.e(AHC.TAG, databaseError.toString());
                 assertNotNull(logint);
             }
         });
