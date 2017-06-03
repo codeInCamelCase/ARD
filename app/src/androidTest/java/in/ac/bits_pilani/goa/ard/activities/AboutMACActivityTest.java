@@ -104,7 +104,7 @@ public class AboutMACActivityTest {
         assertNotNull(databasereference);
         ContextWrapper contextWrapper = new ContextWrapper(context);
         SharedPreferences sharedPreferences = contextWrapper.getSharedPreferences("aboutMAC", Context.MODE_PRIVATE);
-        String html = sharedPreferences.getString(AHC.HTML_ABOUT_MAC,"");
+        String html = sharedPreferences.getString(AHC.HTML_ABOUT_MAC, "");
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             assertNotNull(Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY));
         } else {
