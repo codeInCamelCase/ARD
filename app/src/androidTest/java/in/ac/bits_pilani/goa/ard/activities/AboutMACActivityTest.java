@@ -1,11 +1,14 @@
 package in.ac.bits_pilani.goa.ard.activities;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -99,6 +102,14 @@ public class AboutMACActivityTest {
     public void onStart() throws Exception {
         DatabaseReference databasereference = FirebaseDatabase.getInstance().getReference().child(AHC.FDR_ABOUT_MAC);
         assertNotNull(databasereference);
+        ContextWrapper contextWrapper = new ContextWrapper(context);
+        SharedPreferences sharedPreferences = contextWrapper.getSharedPreferences("aboutMAC", Context.MODE_PRIVATE);
+        String html = sharedPreferences.getString(AHC.HTML_ABOUT_MAC,"");
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            assertNotNull(Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            assertNotNull(Html.fromHtml(html));
+        }
     }
 
 }

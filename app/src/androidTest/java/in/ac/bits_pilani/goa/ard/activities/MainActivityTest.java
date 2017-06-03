@@ -144,4 +144,10 @@ public class MainActivityTest {
         
     }
 
+    @Test
+    public void testIntent() throws Exception {
+        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        onView(withText("About App")).check(matches(isDisplayed())).perform(click());
+        onView(withId(R.id.about_mac_text)).check(matches(isDisplayed()));
+    }
 }
