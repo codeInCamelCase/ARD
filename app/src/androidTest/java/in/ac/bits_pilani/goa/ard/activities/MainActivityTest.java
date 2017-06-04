@@ -1,6 +1,8 @@
 package in.ac.bits_pilani.goa.ard.activities;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
@@ -8,11 +10,17 @@ import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.contrib.DrawerMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.FrameLayout;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -22,7 +30,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import in.ac.bits_pilani.goa.ard.Adapters.HomeRvAdapter;
+import in.ac.bits_pilani.goa.ard.Models.CardType;
 import in.ac.bits_pilani.goa.ard.R;
+import in.ac.bits_pilani.goa.ard.fragments.HomeFragment;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
@@ -35,7 +49,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withContentDesc
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.hasEntry;
 import static org.junit.Assert.assertArrayEquals;
 
 /**
@@ -45,6 +61,11 @@ import static org.junit.Assert.assertArrayEquals;
 public class MainActivityTest {
 
     private Context context;
+    private HomeFragment homeFragment;
+    private MainActivity mainActivity;
+
+    private HomeRvAdapter homeRvAdapter;
+    private List<CardType> cardListImageCard;
 
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule =
@@ -53,15 +74,55 @@ public class MainActivityTest {
     @Before
     public void init() {
         context = InstrumentationRegistry.getTargetContext();
+
+        homeFragment = new HomeFragment();
+        mainActivity = activityTestRule.getActivity();
+        homeRvAdapter = new HomeRvAdapter();
+
+        // image card list
+        cardListImageCard = new ArrayList<CardType>();
+        List<Object> temp= new ArrayList<Object>();
+        CardType card1=new CardType();
+        card1.setType(0);
+        temp.add(0, (Bitmap) BitmapFactory.decodeResource( context.getResources(),
+                R.drawable.ic_stat));
+        temp.add(1,(String)"Title");
+        temp.add(2,(String)"date");
+        temp.add(3,(String)"77");
+        card1.setValue(temp);
+        cardListImageCard.add(card1);
+
+        }
+
+    @Test
+    public void testGetItemCount()
+    {
+        //test getItemCount() for image card
+        homeRvAdapter.setCardList(cardListImageCard);
+        assertEquals(homeRvAdapter.getItemCount() ,1);
+
     }
 
     @Test
-    public void testClassName() throws Exception {
-        final String[] expected = new String[]{
-                "MainActivity",
-        };
-        assertArrayEquals("Class name error", expected,
-                new String[]{activityTestRule.getActivity().getClass().getSimpleName()});
+    public void testOnBindViewHolder() {
+
+        //test image card
+        homeRvAdapter.setCardList(cardListImageCard);
+        LayoutInflater inflater = LayoutInflater.from(mainActivity.getApplicationContext());
+        View listItemView = inflater.inflate(R.layout.home_card_image, null, false);
+        HomeRvAdapter.ViewHolderImage viewHolderImage=new HomeRvAdapter.ViewHolderImage(listItemView);
+
+        homeRvAdapter.onBindViewHolder(viewHolderImage ,0);
+        assertEquals(viewHolderImage.viewHolderImageTitle.getText().toString(),"Title");
+        assertEquals(viewHolderImage.viewHolderImageDate.getText().toString(),"date");
+        assertEquals(viewHolderImage.viewHolderImageCommentCount.getText().toString(),"77");
+
+    }
+
+    @Test
+    public void testOnCreateViewHolder() {
+        homeRvAdapter.setCardList(cardListImageCard);
+        HomeRvAdapter.ViewHolderImage viewHolderImage =  (HomeRvAdapter.ViewHolderImage)homeRvAdapter.onCreateViewHolder(new FrameLayout(context),0);
     }
 
     @Test
