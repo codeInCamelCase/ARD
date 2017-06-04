@@ -1,6 +1,8 @@
 package in.ac.bits_pilani.goa.ard.activities;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
@@ -8,7 +10,11 @@ import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.contrib.DrawerMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +28,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import in.ac.bits_pilani.goa.ard.Adapters.HomeRvAdapter;
+import in.ac.bits_pilani.goa.ard.Models.CardType;
 import in.ac.bits_pilani.goa.ard.R;
+import in.ac.bits_pilani.goa.ard.fragments.HomeFragment;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
@@ -36,6 +48,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.hasEntry;
 import static org.junit.Assert.assertArrayEquals;
 
 /**
@@ -46,6 +59,8 @@ public class MainActivityTest {
 
     private Context context;
 
+    private HomeFragment testFragment;
+
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule =
             new ActivityTestRule<>(MainActivity.class);
@@ -53,15 +68,31 @@ public class MainActivityTest {
     @Before
     public void init() {
         context = InstrumentationRegistry.getTargetContext();
+
+        testFragment = new HomeFragment();
+        activityTestRule.getActivity().getSupportFragmentManager().beginTransaction().add(R.id.frame_content_main,testFragment);
     }
 
     @Test
-    public void testClassName() throws Exception {
-        final String[] expected = new String[]{
-                "MainActivity",
-        };
-        assertArrayEquals("Class name error", expected,
-                new String[]{activityTestRule.getActivity().getClass().getSimpleName()});
+    public void testHomeRecyclerView() {
+
+        //create cardList to send to recyclerView
+        List<CardType> cardList =  new ArrayList<CardType>();
+        CardType card1=new CardType();
+        card1.setType(0);
+        List<Object> temp= new ArrayList<Object>();
+        temp.add(0, (Bitmap) BitmapFactory.decodeResource( context.getResources(),
+                R.drawable.ic_stat));
+        temp.add(1,(String)"Title");
+        temp.add(2,(String)"date");
+        temp.add(3,(String)"77");
+        card1.setValue(temp);
+        cardList.add(card1);
+
+        testFragment.setCardList(cardList);
+
+        Log.e("TAG","im back");
+
     }
 
     @Test
