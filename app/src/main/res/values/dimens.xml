@@ -7,4 +7,6 @@
     <dimen name="bottom_nav_default_elevation">8dp</dimen>
     <dimen name="nav_drawer_elevation">16dp</dimen>
     <dimen name="nav_drawer_image_margin">0dp</dimen>
+    <dimen name="about_mac_textview_padding">16dp</dimen>
+    <dimen name="about_mac_image_height">150dp</dimen>
 </resources>

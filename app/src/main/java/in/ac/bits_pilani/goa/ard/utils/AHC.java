@@ -58,4 +58,33 @@ public class AHC {
      * background image for navigation drawer.
      */
     public static final String FDR_NAV_DRAWER_IMAGE_LIST = "navDrawerImages";
+
+    /**
+     * Firebase Database Reference for aboutMAC.
+     */
+    public static final String FDR_ABOUT_MAC = "aboutMAC";
+
+    /**
+     * String text is used in sharedpreferences and also in firebase.
+     * text is a key.
+     */
+    public static final String TEXT_ABOUT_MAC = "text";
+
+    /**
+     * String imageUrl is used in sharedpreferences and also in firebase.
+     * imageUrl is a key.
+     */
+    public static final String IMAGEURL_ABOUT_MAC = "imageUrl";
+
+    /**
+     * Float 0.5f is used in glide thumbnail.
+     */
+    public static final float GLIDE_THUMBNAIL_VALUE = 0.5f;
+
+    /**
+     * Sharedpreferences name for ARD APP.
+     */
+    public static final String USER_PREFERENCES = "ARD_SHP";
+
+
 }

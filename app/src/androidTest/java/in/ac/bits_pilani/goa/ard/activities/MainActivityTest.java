@@ -113,10 +113,6 @@ public class MainActivityTest {
         onView(withId(R.id.drawer_layout)).check(matches(DrawerMatchers.isClosed()));
 
         onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
-        onView(withText("Gallery")).check(matches(isDisplayed())).perform(click());
-        onView(withId(R.id.drawer_layout)).check(matches(DrawerMatchers.isClosed()));
-
-        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
         onView(withText("Slideshow")).check(matches(isDisplayed())).perform(click());
         onView(withId(R.id.drawer_layout)).check(matches(DrawerMatchers.isClosed()));
 
@@ -227,6 +223,13 @@ public class MainActivityTest {
         textView2.check(matches(isDisplayed()));
 
         pressBack();
+    }
+
+    @Test
+    public void testIntent() throws Exception {
+        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        onView(withText("About App")).check(matches(isDisplayed())).perform(click());
+        onView(withId(R.id.about_mac_desc)).check(matches(isDisplayed()));
     }
 
 }
