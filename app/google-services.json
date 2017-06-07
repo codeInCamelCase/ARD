@@ -15,7 +15,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "895100654158-73rojle3pl5pfaaanukk9dpn0tn7dhc4.apps.googleusercontent.com",
+          "client_id": "895100654158-r84ljb473am4tmhn5e57cuo9acroh42b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.macbitsgoa.ard.debug",
+            "certificate_hash": "9b730289a9c6153d33f4d7d014ecec25806b5412"
+          }
+        },
+        {
+          "client_id": "895100654158-6d1qp7as39bm723ftcq0bu53cs9ntmdl.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "895100654158-6d1qp7as39bm723ftcq0bu53cs9ntmdl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
@@ -46,7 +59,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "895100654158-73rojle3pl5pfaaanukk9dpn0tn7dhc4.apps.googleusercontent.com",
+          "client_id": "895100654158-fgn7e3rneggep09mmsdgt6kq1jjd021l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.macbitsgoa.ard",
+            "certificate_hash": "9b730289a9c6153d33f4d7d014ecec25806b5412"
+          }
+        },
+        {
+          "client_id": "895100654158-6d1qp7as39bm723ftcq0bu53cs9ntmdl.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -60,8 +81,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "895100654158-6d1qp7as39bm723ftcq0bu53cs9ntmdl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

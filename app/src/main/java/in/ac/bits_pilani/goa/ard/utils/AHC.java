@@ -67,6 +67,26 @@ public class AHC {
     public static final String FDR_NAV_DRAWER_IMAGE_LIST = "navDrawerImages";
 
     /**
+     * Firebase directory of users.
+     */
+    public static final String FDR_USERS = "users";
+
+    /**
+     * Field {@link in.ac.bits_pilani.goa.ard.models.User#name} (Name of User).
+     */
+    public static final String FDR_USERS_NAME = "name";
+
+    /**
+     * Field {@link in.ac.bits_pilani.goa.ard.models.User#email} (email id of user).
+     */
+    public static final String FDR_USERS_EMAIL = "email";
+
+    /**
+     * Field {@link in.ac.bits_pilani.goa.ard.models.User#photoUrl} (photo url of user).
+     */
+    public static final String FDR_USERS_PHOTO_URL = "photoUrl";
+
+    /**
      * Method to get pixel value corresponding to input dp.
      * @param context of calling method.
      * @param dp value to be converted in dp.

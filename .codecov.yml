@@ -45,6 +45,9 @@ flags:
   utils:
     paths:
       - app/src/main/.*utils/
+  models:
+    paths:
+      - app/src/main/.*models/
   androidTest:
     paths:
       - app/src/androidTest/
