@@ -16,6 +16,12 @@
     <string name="bottom_nav_faq_activity_main">F.A.Q.</string>
     <string name="bottom_nav_home_activity_main">Home</string>
     <string name="bottom_nav_chat_activity_main">Chat</string>
+    <string name="title_activity_auth">Authenticate</string>
+
+    <!-- Strings related to login -->
+    <string name="google_sign_in">Sign in with Google</string>
+    <string name="firebase_web_client_id">895100654158-136bgaosvno98ebaebrdm6cra8ckp0gu.apps.googleusercontent.com</string>
+    <string name="error_google_sign_in_failed">Google sign in failed</string>
 
     <!-- Faq fragment tab layout titles -->
     <string name="tabLayout_faq_general">General</string>
