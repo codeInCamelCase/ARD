@@ -3,7 +3,6 @@ package in.ac.bits_pilani.goa.ard.general;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
 
 /**
  * Basic tests for the application.
@@ -46,10 +44,4 @@ public class ApplicationTest {
                 new int[]{context.getApplicationInfo().targetSdkVersion});
     }
 
-
-    @Test
-    public void deliberateFailure() {
-        Log.e("uniqueTag", "deliberateFailure: one step away from doom");
-        assertEquals(1+1, 11);
-    }
 }
