@@ -9,7 +9,7 @@ android:
     - platform-tools
 
     - build-tools-25.0.2
-    
+
     #- extra-google-google_play_services
     - extra-google-m2repository
     #- addon-google_apis-google-19
@@ -46,6 +46,8 @@ before_install:
   - ./.ci/travis/check_pr.sh
   - sudo apt-get update -qq
   - sudo apt-get install -qq pastebinit
+  - sudo apt-get install jq
+  - wget -O ~/codacy-coverage-reporter-assembly-latest.jar $(curl https://api.github.com/repos/codacy/codacy-coverage-reporter/releases/latest | jq -r .assets[0].browser_download_url)
   - android list targets
   - mkdir "$ANDROID_HOME/licenses" || true
   - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
@@ -53,16 +55,16 @@ before_install:
 
 # Emulator Management: Create, Start and Wait
 before_script:
-  - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a  
-  - ${ANDROID_HOME}/tools/emulator -avd test -no-skin -no-audio -no-window -netspeed full -netdelay none &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
+  #- echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
+  #- ${ANDROID_HOME}/tools/emulator -avd test -no-skin -no-audio -no-window -netspeed full -netdelay none &
+  #- android-wait-for-emulator
+  #- adb shell input keyevent 82 &
 
 script:
   - echo "Travis branch is $TRAVIS_BRANCH"
   - echo "Travis branch is in pull request $TRAVIS_PULL_REQUEST"
   - ./.ci/validate-codecov.sh
-  - ./gradlew clean build connectedCheck
+  #- ./gradlew clean build connectedCheck
 
 after_failure:
   - echo "Build failure"
@@ -71,9 +73,14 @@ after_failure:
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+  - java -cp ~/codacy-coverage-reporter-assembly-latest.jar com.codacy.CodacyCoverageReporter -l Java -r ./app/build/reports/coverage/debug/report.xml
 
 notifications:
   slack: macbitsgoa:ll3YNWLieRUgdN3RNSwkOoeW
+
+env:
+  global:
+    secure: oFpjGe6qJj2Osi10+E2UpxDSipSddtJndu7R7U2giF9WfJrkL4yk8oLZHrp/pXHiFRO0xBR1Y13lq9wCkRmlsmLeL7vCZHZiekP8AR5WCkQA/cF3DdOXn8rXVTzZPgjRTztyhMV6UQlh9jwxTh/On44swYRk5n28G9iO3G/05jSGkxPU/KggEPiQp8jyCuZIKI8Ps0zvE6Z6JDJNLl6vt/WFJRBP3XnjS8gQC70kheFmh8/+Y3S8Dsm6cJxRolqAXvRRyyQUbACLx04TMJEgejPGAIYuZPV20rAdiYbmQyOTbkTRkta0hf17oTHSzug/spAj7+lo5dJOJ+rbSX72zqLp7esWT80I6cBYtLnReBM4ihswGctvALL5MUj46VtzPY7IYmdj0Ed8UYee8y0iPLBw/bCzinFo2ILO0rYGw2B4QxkWulVRbj1gyGMY0cbHZ9sFfgUy+AmmDffG6zZmF/fLT0+36d5Y5a7EuCREXgkelAmWSS1coZPqqDAheIzk3Vj9gAxA9ezytgPrvJOmql9JnEWuDYdwdHZ7VyNJwK829JyS85vOh9H+WDGTOkRHFY4i4idnAdzmeDk7ZyUbo9MDw2OqSUzhjVjL6KSzGdBa0ShNx8IvPqpIUS7A8NnUgm0PEmqdQ5gxl+a/1uEDI0+fMK4xdP2keuV2EfoAIDY=
 
 #If you don’t want to run a build for a particular commit for any reason,
 # add [ci skip] or [skip ci] to the git commit message.
