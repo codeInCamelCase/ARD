@@ -17,13 +17,9 @@ import in.ac.bits_pilani.goa.ard.R;
  */
 public class FaqGeneralFragment extends Fragment {
 
-    public FaqGeneralFragment() {
-        // Required empty public constructor
-    }
-
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
+     * Use this method to create a new instance of the fragment.
+     * It accepts an object of Bundle as a parameter (can be null).
      *
      * @param args Bundle object to be sent.
      * @return A new instance of fragment FaqGeneralFragment.
