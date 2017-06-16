@@ -1,5 +1,6 @@
 package in.ac.bits_pilani.goa.ard.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -249,8 +250,6 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
@@ -259,6 +258,9 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        } else if (id == R.id.nav_about_app) {
+            final Intent intent = new Intent(this, AboutMACActivity.class);
+            startActivity(intent);
         } else if (id == R.id.bottom_nav_faq) {
             fragmentManager.beginTransaction()
                     .replace(R.id.frame_content_main, faqFragment)
