@@ -28,6 +28,9 @@ jdk:
 os:
   - linux
 
+env:
+  - EMULATOR_NAME=test
+
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -53,8 +56,10 @@ before_install:
 
 # Emulator Management: Create, Start and Wait
 before_script:
-  - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a  
-  - ${ANDROID_HOME}/tools/emulator -avd test -no-skin -no-audio -no-window -netspeed full -netdelay none &
+  - ls ${ANDROID_HOME}/tools/bin
+  - ls ${ANDROID_HOME}tools/bin
+  - echo no | ${ANDROID_HOME}tools/bin/avdmanager -v create avd --force -n $EMULATOR_NAME -k 'system-images;android-21;google_apis;x86'
+  - ${ANDROID_HOME}/tools/emulator -avd $EMULATOR_NAME -skin 450x800 -no-audio -no-window -netspeed full -netdelay none &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
   - mkdir ./app/debug/logcat -p
