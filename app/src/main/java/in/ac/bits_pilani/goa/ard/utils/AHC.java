@@ -58,4 +58,10 @@ public class AHC {
      * background image for navigation drawer.
      */
     public static final String FDR_NAV_DRAWER_IMAGE_LIST = "navDrawerImages";
+
+    /**
+     * Value for card types in home fragment.
+     */
+    public static final int IMAGE_CARD_TYPE = 0;
+
 }
