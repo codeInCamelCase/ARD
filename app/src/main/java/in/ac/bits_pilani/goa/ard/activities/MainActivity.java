@@ -1,5 +1,6 @@
 package in.ac.bits_pilani.goa.ard.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -258,6 +259,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
+            Intent intent = new Intent(MainActivity.this, AuthActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.bottom_nav_faq) {
             fragmentManager.beginTransaction()
