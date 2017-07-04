@@ -34,7 +34,7 @@
     <module name="FileLength">
         <property name="fileExtensions" value="java, xml"/>
     </module>
-    <module name="TreeWalker">       
+    <module name="TreeWalker">
         <!-- Annotation checks -->
         <module name="AnnotationLocation">
             <property name="id" value="AnnotationLocationMostCases"/>

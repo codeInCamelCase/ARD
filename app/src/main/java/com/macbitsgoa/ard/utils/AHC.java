@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 
+import com.macbitsgoa.ard.models.User;
+
 /**
  * Helper class for ARD.
  *
@@ -65,6 +67,26 @@ public class AHC {
      * background image for navigation drawer.
      */
     public static final String FDR_NAV_DRAWER_IMAGE_LIST = "navDrawerImages";
+
+    /**
+     * Firebase directory of users.
+     */
+    public static final String FDR_USERS = "users";
+
+    /**
+     * Field {@link User#name} (Name of User).
+     */
+    public static final String FDR_USERS_NAME = "name";
+
+    /**
+     * Field {@link User#email} (email id of user).
+     */
+    public static final String FDR_USERS_EMAIL = "email";
+
+    /**
+     * Field {@link User#photoUrl} (photo url of user).
+     */
+    public static final String FDR_USERS_PHOTO_URL = "photoUrl";
 
     /**
      * Method to get pixel value corresponding to input dp.
