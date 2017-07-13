@@ -48,6 +48,7 @@ captures/
 *.ipr
 *~
 *.swp
+
 # Android Patch
 gen-external-apklibs
 
@@ -81,7 +82,7 @@ obj/
 .idea/sqlDataSources.xml
 .idea/dynamic.xml
 .idea/uiDesigner.xml
-/.idea/codeStyleSettings.xml
+.idea/codeStyleSettings.xml
 
 # Keystore files
 *.jks
