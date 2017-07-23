@@ -1,7 +1,5 @@
 language: android
 
-sudo: required
-
 android:
   components:
     - tools
@@ -9,7 +7,7 @@ android:
     - platform-tools
 
     - build-tools-25.0.2
-    
+
     #- extra-google-google_play_services
     - extra-google-m2repository
     #- addon-google_apis-google-19
@@ -17,16 +15,18 @@ android:
     #- extra-android-support
     #- extra-google-android-support
 
-    #- android-21
     - android-25
 
-    - sys-img-armeabi-v7a-android-21
-
-jdk:
-  - oraclejdk8
+    - sys-img-armeabi-v7a-google_apis-21
+    - sys-img-armeabi-v7a-google_apis-23
 
 os:
   - linux
+
+addons:
+  apt:
+    packages:
+      - pastebinit
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -37,24 +37,36 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
     - $HOME/.android/build-cache
+  apt: true
+
+matrix:
+  fast_finish: true
+  include:
+    - env:
+      - DESC="Android 21 | Lollipop 5.0"
+      - EMULATOR_NAME=test21
+      - CMD="echo no | android create avd --force -n $EMULATOR_NAME -k 'system-images;android-21;google_apis;x86'"
+    - env:
+      - DESC="Android 23 | Marshmallow 6.0"
+      - EMULATOR_NAME=test23
+      - CMD="echo no | android create avd --force -n $EMULATOR_NAME -k 'system-images;android-23;google_apis;x86'"
 
 licenses:
-  - android-sdk-license-.+
   - '.+'
 
 before_install:
+  - echo "Travis branch is $TRAVIS_BRANCH"
+  - echo "Travis branch is in pull request $TRAVIS_PULL_REQUEST"
   - ./.ci/travis/check_pr.sh
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq pastebinit
-  - android list targets
+  - ./.ci/codecov/validate-codecov.sh
   - mkdir "$ANDROID_HOME/licenses" || true
   - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
   - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
 
 # Emulator Management: Create, Start and Wait
 before_script:
-  - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a  
-  - ${ANDROID_HOME}/tools/emulator -avd test -no-skin -no-audio -no-window -netspeed full -netdelay none &
+  - eval $CMD
+  - ${ANDROID_HOME}/tools/emulator -avd $EMULATOR_NAME -no-audio -no-window -netspeed full -netdelay none &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
   - mkdir ./app/debug/logcat -p
@@ -62,17 +74,11 @@ before_script:
   - adb logcat > ./app/debug/logcat/logcat &
 
 script:
-  - echo "Travis branch is $TRAVIS_BRANCH"
-  - echo "Travis branch is in pull request $TRAVIS_PULL_REQUEST"
-  - ./.ci/validate-codecov.sh
   - ./gradlew clean build coverage
   - killall adb
 
 after_failure:
-  - echo "Build failure"
-  - pastebinit -i ./app/build/reports/lint-results.html -f html -a lint-results-${TRAVIS_BUILD_NUMBER}-html
-  - pastebinit -i ./app/build/reports/checkstyle/checkstyle.html -f html -a checkstyle-results-${TRAVIS_BUILD_NUMBER}-html
-  - pastebinit -i ./app/debug/logcat/logcat -a logcat-${TRAVIS_BUILD_NUMBER}
+  - ./.ci/travis/pastebin.sh
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
@@ -83,5 +89,6 @@ notifications:
 
 #If you don’t want to run a build for a particular commit for any reason,
 # add [ci skip] or [skip ci] to the git commit message.
-#Commits that have [ci skip] or [skip ci] anywhere in the commit messages 
+#Commits that have [ci skip] or [skip ci] anywhere in the commit messages
 #are ignored by Travis CI.
+
