@@ -23,6 +23,7 @@
 
     <!-- Faq fragment tab layout titles -->
     <string name="tabLayout_faq_general">General</string>
+    <string name="newListMessage">You have a new list</string>
 
     <!-- Home Fragment strings -->
     <string name="hint_home_ann_fragment_message">Enter message</string>
