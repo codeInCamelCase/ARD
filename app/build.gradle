@@ -6,25 +6,26 @@ apply plugin: 'realm-android'
 ext {
     androidTestVer = "0.5"
     buildToolsVer = "26.0.0"
-    butterknifeVer = "8.6.0"
-    checkstyleVer = '7.7'
-    compileSdkVer = 25
+    butterknifeVer = "8.8.1"
+    checkstyleVer = '8.1'
+    compileSdkVer = 26
     constraintVer = "1.0.2"
     dexMakerVer = "1.2"
     espContVer = "2.2.2"
     espCoreVer = "2.2.2"
     espIntVer = "2.2.2"
     espUIAVer = "2.1.2"
-    firebaseVer = "11.0.0"
-    glideVer = "4.0.0-RC0"
-    playServicesVer = "11.0.0"
+    firebaseVer = "11.2.0"
+    glideVer = "4.0.0"
+    playServicesVer = "11.2.0"
     hamcrestVer = "1.3"
     jacocoVer = "0.7.9"
     junitVer = "4.12"
     minSdkVer = 21
-    mockitoVer = "2.8.47"
+    mockitoVer = "2.9.0"
+    roboElecVer = "3.4.2"
     rxJavaVer = "1.3.0"
-    supportVer = "25.4.0"
+    supportVer = "26.0.2"
     targetSdkVer = 25
     verCode = 1
     verName = "1.0"
@@ -73,6 +74,7 @@ android {
         xmlReport true
     }
     testOptions {
+        unitTests.includeAndroidResources = true
         unitTests.returnDefaultValues = true
         unitTests.all {
             jvmArgs '-noverify'
@@ -121,6 +123,7 @@ dependencies {
     //Unit test compiles
     testCompile "junit:junit:${junitVer}"
     testCompile "org.mockito:mockito-core:${mockitoVer}"
+    testCompile "org.robolectric:robolectric:${roboElecVer}"
 
     //Android test compiles
     androidTestCompile "com.google.dexmaker:dexmaker:${dexMakerVer}"

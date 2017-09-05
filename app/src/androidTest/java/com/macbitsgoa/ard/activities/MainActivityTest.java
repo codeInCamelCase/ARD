@@ -7,18 +7,12 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.view.GravityCompat;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.macbitsgoa.ard.R;
 import com.macbitsgoa.ard.keys.AuthActivityKeys;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -91,15 +85,13 @@ public class MainActivityTest {
         activityTestRule.launchActivity(new Intent().putExtra(AuthActivityKeys.USE_DEFAULT, false));
         onView(withId(R.id.bottom_nav_activity_main)).check(matches(isDisplayed()));
 
-        onView(allOf(withId(R.id.bottom_nav_home),
-                withContentDescription("Home"), isDisplayed()))
+        onView(allOf(withId(R.id.bottom_nav_home), isDisplayed()))
                 .perform(click());
         onView(withId(R.id.fragment_home_layout)).check(matches(isDisplayed()));
         onView(withId(R.id.fragment_faq_layout)).check(doesNotExist());
         onView(withId(R.id.fragment_chat_layout)).check(doesNotExist());
 
-        onView(allOf(withId(R.id.bottom_nav_faq),
-                withContentDescription("F.A.Q."), isDisplayed()))
+        onView(allOf(withId(R.id.bottom_nav_faq), isDisplayed()))
                 .perform(click());
         onView(withId(R.id.fragment_faq_layout)).check(matches(isDisplayed()));
         onView(withId(R.id.fragment_home_layout)).check(doesNotExist());
@@ -109,8 +101,7 @@ public class MainActivityTest {
         onView(withText("General")).check(matches(isDisplayed()));
 
 
-        onView(allOf(withId(R.id.bottom_nav_chat),
-                withContentDescription("Chat"), isDisplayed()))
+        onView(allOf(withId(R.id.bottom_nav_chat), isDisplayed()))
                 .perform(click());
         onView(withId(R.id.fragment_chat_layout)).check(matches(isDisplayed()));
         onView(withId(R.id.fragment_home_layout)).check(doesNotExist());
