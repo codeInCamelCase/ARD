@@ -74,7 +74,8 @@
         <activity
             android:name=".activities.ChatActivity"
             android:label="@string/title_activity_chat"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:excludeFromRecents="true">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.macbitsgoa.ard.activities.MainActivity" />

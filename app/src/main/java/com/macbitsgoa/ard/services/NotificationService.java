@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.text.Html;
 import android.util.Log;
 
@@ -34,6 +35,8 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
+
 /**
  * Service to show various section updates. Currently chats and announcements are shown.
  * Announcements that have {@link AnnItem#read} status as {@code false} are include.
@@ -49,11 +52,6 @@ public class NotificationService extends BaseIntentService {
      * TAG for class.
      */
     public static final String TAG = NotificationService.class.getSimpleName();
-
-    /**
-     * Request code for alarm manager.
-     */
-    public static final int RC = 90;
 
     public static final int ANN_NOTIF_CODE = 193;
 
@@ -116,7 +114,7 @@ public class NotificationService extends BaseIntentService {
 
         final Intent intent = new Intent(this, AnnActivity.class);
         final PendingIntent pIntent = PendingIntent.getActivity(this,
-                pIntentCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                pIntentCode, intent, FLAG_UPDATE_CURRENT);
         final NotificationCompat.Builder builder
                 = new NotificationCompat.Builder(this, "Announcements")
                 .setAutoCancel(true)
@@ -159,7 +157,6 @@ public class NotificationService extends BaseIntentService {
                     .equalTo("id", mi.getSenderId())
                     .findFirst();
             if (ci == null) continue;
-            //TODO handle null case. is it req?
             chatsItems.add(ci);
         }
         for (final ChatsItem ci : chatsItems) {
@@ -174,12 +171,10 @@ public class NotificationService extends BaseIntentService {
             piIntent.putExtra("title", ci.getName());
             piIntent.putExtra(MessageItemKeys.SENDER_ID, ci.getId());
             piIntent.putExtra("photoUrl", ci.getPhotoUrl());
-
-            final PendingIntent pi = PendingIntent
-                    .getActivity(this,
-                            123,
-                            piIntent,
-                            PendingIntent.FLAG_UPDATE_CURRENT);
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+            stackBuilder.addParentStack(ChatActivity.class);
+            stackBuilder.addNextIntent(piIntent);
+            final PendingIntent pi = stackBuilder.getPendingIntent(123, FLAG_UPDATE_CURRENT);
             NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle()
                     .setBigContentTitle(ci.getName())
                     .addLine(AHC.getSimpleTime(unreadMessages.get(0).getMessageTime())
