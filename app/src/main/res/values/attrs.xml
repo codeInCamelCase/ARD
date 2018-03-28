@@ -44,13 +44,4 @@
     <!-- Default misc attrs -->
     <attr name="fillColor_drawable_default" format="color" />
 
-    <!-- Expandable text view styleables -->
-    <declare-styleable name="ExpandableTextView">
-        <attr name="expandDrawable" format="reference" />
-        <attr name="collapseDrawable" format="reference" />
-        <attr name="maxCollapsedLines" format="integer" />
-        <attr name="animAlphaStart" format="float" />
-        <attr name="animDuration" format="integer" />
-    </declare-styleable>
-
 </resources>
