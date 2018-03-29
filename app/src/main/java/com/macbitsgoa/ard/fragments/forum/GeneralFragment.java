@@ -123,7 +123,7 @@ public class GeneralFragment extends BaseFragment {
                 .equalTo(FaqItemKeys.SECTION, getArguments().getString(SECTION_KEY))
                 .findAllSortedAsync(new String[]{FaqItemKeys.SUB_SECTION, FaqItemKeys.UPDATE},
                         new Sort[]{Sort.ASCENDING, sort});
-        forumAdapter = new ForumAdapter(faqItems);
+        forumAdapter = new ForumAdapter(faqItems, getContext());
         recyclerView.setAdapter(forumAdapter);
         toDesc = (Animatable) sortOrderImg.getDrawable();
         sortAnimatable = (Animatable) sortImg.getDrawable();

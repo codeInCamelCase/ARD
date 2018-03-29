@@ -31,6 +31,7 @@
     <string name="bottom_nav_home_activity_main">Home</string>
     <string name="bottom_nav_chat_activity_main">Chat</string>
     <string name="bottom_nav_more_activity_main">More</string>
+    <string name="bottom_nav_details_activity_main">Details</string>
 
     <!-- Faq fragment tab layout titles -->
     <string name="tabLayout_forum_general">General</string>
@@ -76,5 +77,8 @@
     <string name="msg_rcvd">Message Delivered</string>
     <string name="msg_sent">Message Sent</string>
     <string name="msg_wait">Waiting</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
