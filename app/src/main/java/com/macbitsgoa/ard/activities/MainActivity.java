@@ -14,7 +14,7 @@ import com.macbitsgoa.ard.BuildConfig;
 import com.macbitsgoa.ard.R;
 import com.macbitsgoa.ard.fragments.BaseFragment;
 import com.macbitsgoa.ard.fragments.ChatFragment;
-import com.macbitsgoa.ard.fragments.DetailFragment;
+import com.macbitsgoa.ard.fragments.DetailsFragment;
 import com.macbitsgoa.ard.fragments.ForumFragment;
 import com.macbitsgoa.ard.fragments.HomeFragment;
 import com.macbitsgoa.ard.interfaces.ChatFragmentListener;
@@ -74,9 +74,9 @@ public class MainActivity extends BaseActivity
     private HomeFragment homeFragment;
 
     /**
-     * DetailFragment object.
+     * DetailsFragment object.
      */
-    private DetailFragment detailFragment;
+    private DetailsFragment detailFragment;
     /**
      * ChatFragment object.
      */
@@ -119,7 +119,7 @@ public class MainActivity extends BaseActivity
         forumFragment = ForumFragment.newInstance(getString(R.string.bottom_nav_forum_activity_main));
         homeFragment = new HomeFragment();
         chatFragment = ChatFragment.newInstance(getString(R.string.bottom_nav_chat_activity_main));
-        detailFragment= DetailFragment.newInstance("abc","def");
+        detailFragment= DetailsFragment.newInstance();
         launchFragment(currentSection);
         final int menuId;
         if (currentSection == MainActivityType.FORUM) menuId = R.id.bottom_nav_forum;
