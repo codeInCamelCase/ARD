@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import com.macbitsgoa.ard.R;
 import com.macbitsgoa.ard.adapters.ViewPagerAdapter;
 import com.macbitsgoa.ard.fragments.forum.GeneralFragment;
-import com.macbitsgoa.ard.interfaces.OnItemClickListener;
 import com.macbitsgoa.ard.keys.FaqItemKeys;
 import com.macbitsgoa.ard.models.FaqSectionItem;
 import com.macbitsgoa.ard.services.ForumService;
@@ -32,7 +31,7 @@ import io.realm.Sort;
  *
  * @author Vikramaditya Kukreja
  */
-public class ForumFragment extends BaseFragment implements OnItemClickListener {
+public class ForumFragment extends BaseFragment {
 
     /**
      * TAG for class.
@@ -130,13 +129,4 @@ public class ForumFragment extends BaseFragment implements OnItemClickListener {
         unbinder.unbind();
     }
 
-    @Override
-    public void onItemClick(View view, int position) {
-
-    }
-
-    @Override
-    public void onLongItemClick(View view, int position) {
-
-    }
 }
