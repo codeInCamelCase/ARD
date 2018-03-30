@@ -2,50 +2,50 @@
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="120dp"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="75dp"
-            android:layout_height="match_parent"
-            android:id="@+id/imageview_user"
-            android:src="@drawable/common_google_signin_btn_icon_light_focused"/>
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:id="@+id/imageview_user" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.33"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:layout_margin="3dp"
-                android:id="@+id/TV_details_name"/>
+                android:layout_marginBottom="3dp"
+                android:id="@+id/tv_details_name"/>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.33"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:layout_margin="3dp"
+                android:layout_marginBottom="3dp"
                 android:textColor="@color/grey_600"
-                android:id="@+id/TV_details_description"/>
+                android:id="@+id/tv_details_description"/>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_margin="3dp"
-                android:layout_height="0dp"
-                android:layout_weight="0.33"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:textColor="@color/grey_600"
-                android:id="@+id/TV_details_email"/>
+                android:id="@+id/tv_details_email"/>
         </LinearLayout>
     </LinearLayout>
 

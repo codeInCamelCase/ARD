@@ -47,7 +47,7 @@ public class GeneralFragment extends BaseFragment {
     public static final String SECTION_KEY = "sectionKey";
 
     /**
-     * Recyclerview to display faqs.
+     * RecyclerView to display faqs.
      */
     @BindView(R.id.rv_fg_forum_general)
     RecyclerView recyclerView;
@@ -66,7 +66,7 @@ public class GeneralFragment extends BaseFragment {
     ImageButton sortImg;
 
     /**
-     * Adapter for recyclerview.
+     * Adapter for RecyclerView.
      */
     private ForumAdapter forumAdapter;
 
@@ -76,7 +76,7 @@ public class GeneralFragment extends BaseFragment {
     private RealmResults<FaqItem> faqItems;
 
     /**
-     * Default seorting order to be used.
+     * Default sorting order to be used.
      */
     Sort sort = Sort.DESCENDING;
 
@@ -123,7 +123,7 @@ public class GeneralFragment extends BaseFragment {
                 .equalTo(FaqItemKeys.SECTION, getArguments().getString(SECTION_KEY))
                 .findAllSortedAsync(new String[]{FaqItemKeys.SUB_SECTION, FaqItemKeys.UPDATE},
                         new Sort[]{Sort.ASCENDING, sort});
-        forumAdapter = new ForumAdapter(faqItems, getContext());
+        forumAdapter = new ForumAdapter(faqItems);
         recyclerView.setAdapter(forumAdapter);
         toDesc = (Animatable) sortOrderImg.getDrawable();
         sortAnimatable = (Animatable) sortImg.getDrawable();

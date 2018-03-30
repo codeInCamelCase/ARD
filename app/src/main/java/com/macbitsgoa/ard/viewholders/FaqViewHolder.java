@@ -17,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Viewholder for {@link com.macbitsgoa.ard.models.FaqItem} used in
+ * ViewHolder for {@link com.macbitsgoa.ard.models.FaqItem} used in
  * {@link com.macbitsgoa.ard.adapters.ForumAdapter}.
  *
  * @author Vikramaditya Kukreja
@@ -46,14 +46,13 @@ public class FaqViewHolder extends RecyclerView.ViewHolder {
      *
      * @param itemView Nonnull inflated view.
      */
-    public FaqViewHolder(@NonNull final View itemView, SparseBooleanArray sba, Context mContext) {
+    public FaqViewHolder(@NonNull final View itemView, SparseBooleanArray sba) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         this.sba = sba;
         sba.put(getAdapterPosition(), false);
-        setCopyListener(questionTV,mContext);
-        setCopyListener(answerTV,mContext);
-        questionTV.setOnClickListener(v -> showAnswer());
+        setCopyListener();
+        itemView.setOnClickListener(v -> showAnswer());
     }
 
     private void showAnswer() {
@@ -97,13 +96,13 @@ public class FaqViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-   private void setCopyListener(TextView textView,Context context){
-       textView.setOnLongClickListener(v -> {
-           ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-           ClipData clip = ClipData.newPlainText(textView.toString(),textView.getText()+"");
+   private void setCopyListener(){
+           itemView.setOnLongClickListener(v -> {
+           ClipboardManager clipboard = (ClipboardManager) itemView.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+           ClipData clip = ClipData.newPlainText("ARD","[Q] "+questionTV.getText()+"\n[A] "+answerTV.getText());
            clipboard.setPrimaryClip(clip);
-           Toast.makeText(context,"Copied To Clipboard",Toast.LENGTH_LONG).show();
-           return false;
+           Toast.makeText(itemView.getContext(),"Copied To Clipboard",Toast.LENGTH_LONG).show();
+           return true;
        });
    }
 }

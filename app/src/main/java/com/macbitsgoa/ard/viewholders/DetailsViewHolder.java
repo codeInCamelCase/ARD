@@ -18,7 +18,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by aayush on 29/3/18.
+ Details Item ViewHolder Class for options.
+ *
+ * @author Aayush Singla
  */
 
 public class DetailsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -27,27 +29,26 @@ public class DetailsViewHolder extends RecyclerView.ViewHolder implements View.O
 
     private Context mContext;
     private Vector<DetailsItem> list;
-    public DetailsViewHolder(View itemView, Context mContext, Vector<DetailsItem> list) {
+    public DetailsViewHolder(View itemView,Vector<DetailsItem> list) {
         super(itemView);
         this.list=list;
-        this.mContext=mContext;
+        mContext=itemView.getContext();
         ButterKnife.bind(this,itemView);
         itemView.setOnClickListener(this);
-
     }
 
 
     @Override
     public void onClick(View v) {
-        switch(list.get(getAdapterPosition()).getTAG()){
+        switch(list.get(getAdapterPosition()-1).getTag()){
             case "ARD":
               /* Intent intent=new Intent(mContext,);
-               mContext.startActivity(intent);
-               break;*/
+               mContext.startActivity(intent);*/
+               break;
             case "MAC":
-            /*    Intent intent=new Intent(mContext,);
-                mContext.startActivity(intent);
-                break;*/
+              /* Intent intent=new Intent(mContext,);
+                mContext.startActivity(intent);*/
+                break;
             case "LOGOUT":
                 FirebaseAuth.getInstance().signOut();
                 Intent intent=new Intent(mContext, AuthActivity.class);
