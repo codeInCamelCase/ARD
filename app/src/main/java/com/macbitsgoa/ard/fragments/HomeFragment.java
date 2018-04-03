@@ -1,103 +1,97 @@
 package com.macbitsgoa.ard.fragments;
 
-import android.animation.Animator;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityOptionsCompat;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 
+import com.github.vivchar.viewpagerindicator.ViewPagerIndicator;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.macbitsgoa.ard.BuildConfig;
 import com.macbitsgoa.ard.R;
-import com.macbitsgoa.ard.activities.PostActivity;
-import com.macbitsgoa.ard.activities.PostDetailsActivity;
-import com.macbitsgoa.ard.activities.SearchActivity;
+import com.macbitsgoa.ard.activities.AnnActivity;
+import com.macbitsgoa.ard.adapters.AnnSlideshowAdapter;
 import com.macbitsgoa.ard.adapters.HomeAdapter;
-import com.macbitsgoa.ard.interfaces.HomeFragmentListener;
-import com.macbitsgoa.ard.interfaces.OnItemClickListener;
-import com.macbitsgoa.ard.interfaces.RecyclerItemClickListener;
+import com.macbitsgoa.ard.adapters.SlideshowAdapter;
 import com.macbitsgoa.ard.keys.AnnItemKeys;
-import com.macbitsgoa.ard.keys.PostKeys;
+import com.macbitsgoa.ard.keys.HomeItemKeys;
+import com.macbitsgoa.ard.keys.SlideshowItemKeys;
 import com.macbitsgoa.ard.models.AnnItem;
-import com.macbitsgoa.ard.models.TypeItem;
-import com.macbitsgoa.ard.types.PostType;
+import com.macbitsgoa.ard.models.SlideshowItem;
+import com.macbitsgoa.ard.services.HomeService;
 import com.macbitsgoa.ard.utils.AHC;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
-import io.realm.Realm;
+import io.realm.RealmResults;
 import io.realm.Sort;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment can implement the
- * {@link HomeFragmentListener} interface
- * to handle interaction events.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A simple {@link Fragment} subclass to display home content.
  *
  * @author Vikramaditya Kukreja
  */
-public class HomeFragment extends Fragment implements View.OnClickListener, OnItemClickListener {
+public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener {
+
+    /**
+     * TAG for this class.
+     */
+    public static final String TAG = HomeFragment.class.getSimpleName();
 
     /**
      * RecyclerView to display Home content.
      */
     @BindView(R.id.recyclerView_fragment_home)
-    public RecyclerView recyclerView;
+    public RecyclerView homeRV;
 
     /**
-     * Main FAB for fragment. Has multiple sub mini FABs.
+     * Viewpager indicator.
      */
-    @BindView(R.id.fab_fragment_home_add)
-    public FloatingActionButton mainFab;
+    @BindView(R.id.ci_fragment_home)
+    public ViewPagerIndicator pagerIndicator;
 
     /**
-     * Sub mini FAB for general upload.
+     * ViewPager for image slideshow.
      */
-    @BindView(R.id.fab_fragment_home_announce)
-    public FloatingActionButton announceFab;
+    @BindView(R.id.vp_fragment_home_slideshow)
+    public ViewPager slideshowVP;
 
-    @BindView(R.id.cardView_frame_search)
-    public CardView cvfs;
+    @BindView(R.id.ab_fragment_home)
+    AppBarLayout appBarLayout;
 
-    /**
-     * A simple {@code View} object which has a custom background to be used when main FAB is
-     * clicked.
-     */
-    @BindView(R.id.view_fragment_home_backdrop)
-    public View backdrop;
+    @BindView(R.id.vp_vh_announcement)
+    ViewPager annVP;
 
-    /**
-     * Status boolean to maintain current status of {@link HomeFragment#mainFab}
-     * in {@link HomeFragment}.
-     */
-    public boolean isFabOpen;
+    @BindView(R.id.nsv_fragment_home)
+    NestedScrollView nsv;
 
-    /**
-     * HomeAdapter object.
-     */
-    public HomeAdapter homeAdapter;
+    Handler handler;
+    Runnable update;
+    Handler annSlideshowHandler;
+    Runnable annSlideshowRunable;
+
+    private RealmResults<AnnItem> annItems;
 
     /**
      * Unbinder for ButterKnife.
@@ -105,300 +99,278 @@ public class HomeFragment extends Fragment implements View.OnClickListener, OnIt
     private Unbinder unbinder;
 
     /**
-     * Reference to node {@link AHC#FDR_HOME} to which listener is attached.
+     * Slideshow adapter.
      */
-    private DatabaseReference dbRef = FirebaseDatabase.getInstance()
-            .getReference().child(BuildConfig.BUILD_TYPE).child(AHC.FDR_HOME);
+    private SlideshowAdapter slideshowAdapter;
 
     /**
-     * Handle for Realm instance.
+     * Slideshow list.
      */
-    private Realm database;
+    private List<SlideshowItem> slideshowItems;
 
     /**
-     * EventListener for {@link AHC#FDR_HOME} which is required to remove in {@link #onStop()}.
+     * Firebase database reference to home content.
      */
-    private ValueEventListener homeEventListener;
+    private DatabaseReference homeRef = getRootReference().child(AHC.FDR_HOME);
 
     /**
-     * Item touch listener of RecyclerView.
+     * Firebase database reference to announcement content.
      */
-    private RecyclerView.OnItemTouchListener onItemTouchListener;
+    private DatabaseReference annRef = getRootReference().child(AHC.FDR_ANN);
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param bundle Bundled data for this fragment.
-     * @return A new instance of fragment HomeFragment.
+     * Reference to slide show image data.
      */
-    public static HomeFragment newInstance(@Nullable final Bundle bundle) {
-        final HomeFragment fragment = new HomeFragment();
-        fragment.setArguments(bundle);
-        return fragment;
-    }
+    private DatabaseReference imageSlideshowRef = getRootReference().child(AHC.FDR_EXTRAS).child("home").child("slideshow");
+
+    /**
+     * Value event listener for {@link #homeRef}.
+     */
+    private ValueEventListener homeRefVEL;
+
+    /**
+     * Value event listener for {@link #annRef}.
+     */
+    private ValueEventListener annRefVEL;
+
+    /**
+     * Value event listener for {@link #imageSlideshowRef}.
+     */
+    private ValueEventListener imageSlideShowVEL;
+
+    /**
+     * {@link View#offsetTopAndBottom(int)} of {@link #appBarLayout}.
+     */
+    private int appBarOffset = 0;
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+    public View onCreateView(@NonNull final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
-
         unbinder = ButterKnife.bind(this, view);
+        homeRV.setHasFixedSize(true);
+        homeRV.setLayoutManager(new LinearLayoutManager(getContext()));
+        homeRV.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        homeRV.setAdapter(new HomeAdapter(getContext()));
 
-        init();
+        setupSlideshow();
+        imageSlideShowVEL = getImageSlideShowVEL();
+        imageSlideshowRef.addValueEventListener(imageSlideShowVEL);
 
         return view;
-    }
-
-    /**
-     * View updates and listeners can be done here.
-     */
-    private void init() {
-        backdrop.setVisibility(View.INVISIBLE);
-        announceFab.setVisibility(View.INVISIBLE);
-
-        homeAdapter = new HomeAdapter();
-
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(homeAdapter);
-
-        onItemTouchListener = new RecyclerItemClickListener(getContext(), recyclerView, this);
-        recyclerView.addOnItemTouchListener(onItemTouchListener);
-        mainFab.setOnClickListener(this);
-        announceFab.setOnClickListener(this);
-        backdrop.setOnClickListener(this);
-        cvfs.setOnClickListener(this);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        database = Realm.getDefaultInstance();
+        appBarLayout.addOnOffsetChangedListener(this);
+        scrollToTop();
+        //hide app bar if orientation is landscape on starting
+        hideAppBar();
 
-        setupData(generateList());
+        homeRefVEL = getHomeRefVEL();
+        annRefVEL = getAnnRefVEL();
 
-        homeEventListener = getValueEventListener();
-        dbRef.addValueEventListener(homeEventListener);
-    }
+        homeRef.orderByChild(HomeItemKeys.DATE + "/time").limitToLast(5).addValueEventListener(homeRefVEL);
+        annRef.addValueEventListener(annRefVEL);
 
-    /**
-     * Method to set realm database.
-     * If argument is null, default realm database will be used.
-     * This method is convenient while testing.
-     *
-     * @param list List of {@link TypeItem} to be used in adapter.
-     */
-    //@VisibleForTesting
-    public void setupData(@NonNull final List<TypeItem> list) {
-        homeAdapter.getData().clear();
-        homeAdapter.getData().addAll(list);
-        homeAdapter.notifyDataSetChanged();
-    }
-
-    /**
-     * When fragment is created the list is generated from the realm database.
-     * This cannot be called before {@link #onStart()} as database is not ready.
-     *
-     * @return Generated list from Realm.
-     */
-    private List<TypeItem> generateList() {
-        //Clear existing results
-        final List<TypeItem> list = new ArrayList<>();
-
-        //Generate Announcement type list
-        for (final AnnItem annItem
-                : database.where(AnnItem.class).findAllSorted("date", Sort.DESCENDING)) {
-            list.add(new TypeItem(annItem, PostType.ANNOUNCEMENT));
-        }
-        return list;
-    }
-
-    /**
-     * Returns the valueEventListener for the node {@link AHC#FDR_HOME}.
-     *
-     * @return valueEventListener object that can be later detached in {@link #onStop()}.
-     */
-    @NonNull
-    private ValueEventListener getValueEventListener() {
-        return new ValueEventListener() {
-            @Override
-            public void onDataChange(final DataSnapshot dataSnapshot) {
-                for (final DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                    final AnnItem annItem = childSnapshot.getValue(AnnItem.class);
-                    annItem.setKey(childSnapshot.getKey());
-                    database.beginTransaction();
-                    database.copyToRealmOrUpdate(annItem);
-                    database.commitTransaction();
-                }
-                setupData(generateList());
-            }
-
-            @Override
-            public void onCancelled(final DatabaseError databaseError) {
-                throw databaseError.toException();
-            }
-        };
+        setupAnnouncementSlideshow();
+        appBarLayout.offsetTopAndBottom(appBarOffset);
     }
 
     @Override
     public void onStop() {
+        handler.removeCallbacks(update);
+        if (annSlideshowHandler != null && annSlideshowRunable != null) {
+            annSlideshowHandler.removeCallbacks(annSlideshowRunable);
+        }
+        //Remove firebase database listeners
+        homeRef.removeEventListener(homeRefVEL);
+        annRef.removeEventListener(annRefVEL);
+
+        annItems.removeAllChangeListeners();
+
         super.onStop();
-        database.close();
-        dbRef.removeEventListener(homeEventListener);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        recyclerView.removeOnItemTouchListener(onItemTouchListener);
-        homeAdapter = null;
+        imageSlideshowRef.removeEventListener(imageSlideShowVEL);
         unbinder.unbind();
     }
 
     @Override
-    public void onClick(final View v) {
-        final int id = v.getId();
-        if (id == R.id.fab_fragment_home_add || id == R.id.view_fragment_home_backdrop) {
-            animateFab();
-        } else if (id == R.id.cardView_frame_search) {
-            ActivityOptionsCompat options = ActivityOptionsCompat.
-                    makeSceneTransitionAnimation(getActivity(), cvfs, "profile");
-            startActivity(new Intent(getContext(), SearchActivity.class), options.toBundle());
-        } else {
-            animateFab();
-            final Intent intent = new Intent(getContext(), PostActivity.class);
-            startActivity(intent);
-        }
+    public void onOffsetChanged(final AppBarLayout appBarLayout, final int verticalOffset) {
+        appBarOffset = verticalOffset;
     }
 
-    /**
-     * Method to animate main fab and invisible ones.
-     */
-    public void animateFab() {
-        final Animator startAnimator = ViewAnimationUtils.createCircularReveal(backdrop,
-                (int) mainFab.getX() + mainFab.getWidth() / 2,
-                (int) mainFab.getY() + mainFab.getHeight() / 2,
-                0,
-                (float) Math.hypot(backdrop.getHeight(), backdrop.getWidth()));
-        final Animator endAnimator = ViewAnimationUtils.createCircularReveal(backdrop,
-                (int) mainFab.getX() + mainFab.getWidth() / 2,
-                (int) mainFab.getY() + mainFab.getHeight() / 2,
-                (float) Math.hypot(backdrop.getHeight(), backdrop.getWidth()),
-                0);
-        startAnimator.setDuration((long) AHC.ANIMATION_MULTIPLIER * getResources()
-                .getInteger(R.integer.anim_fab_duration));
-        endAnimator.setDuration((long) AHC.ANIMATION_MULTIPLIER * getResources()
-                .getInteger(R.integer.anim_fab_duration));
+    private void setupSlideshow() {
+        slideshowItems = new ArrayList<>();
+        slideshowAdapter = new SlideshowAdapter(slideshowItems);
 
-        if (isFabOpen) {
-            startAnimator.removeAllListeners();
-            endAnimator.addListener(getEndAnimatorListener());
-            endAnimator.start();
-        } else {
-            endAnimator.removeAllListeners();
-            startAnimator.addListener(getStartAnimatorListener());
-            startAnimator.start();
-        }
+        handler = new Handler();
+        update = () -> {
+            if (slideshowVP == null || slideshowAdapter == null) return;
+            int newPos = slideshowVP.getCurrentItem() + 1;
+            newPos %= slideshowAdapter.getCount();
+            slideshowVP.setCurrentItem(newPos, true);
+        };
+
+        handler.postDelayed(update, 5000);
+        slideshowVP.setAdapter(slideshowAdapter);
+        pagerIndicator.setupWithViewPager(slideshowVP);
+        pagerIndicator.addOnPageChangeListener(getVopl());
+        slideshowVP.addOnPageChangeListener(getVopl());
     }
 
-    /**
-     * Returns listener for start animation of backdrop.
-     *
-     * @return Animator listener for animator object.
-     */
-    private Animator.AnimatorListener getStartAnimatorListener() {
-        return new Animator.AnimatorListener() {
+    @NonNull
+    private ViewPager.OnPageChangeListener getVopl() {
+        return new ViewPager.OnPageChangeListener() {
             @Override
-            public void onAnimationStart(final Animator animation) {
-                mainFab.startAnimation(AnimationUtils.loadAnimation(getContext(),
-                        R.anim.rotate_clock));
-                announceFab.startAnimation(AnimationUtils.loadAnimation(getContext(),
-                        R.anim.fab_open));
-                backdrop.setVisibility(View.VISIBLE);
-                announceFab.setVisibility(View.VISIBLE);
+            public void onPageScrolled(final int position, final float positionOffset,
+                                       final int positionOffsetPixels) {
             }
 
             @Override
-            public void onAnimationEnd(final Animator animation) {
-                announceFab.setClickable(true);
-                backdrop.setClickable(true);
-                isFabOpen = true;
+            public void onPageSelected(final int position) {
 
-                //To keep coverage at 100%
-                onAnimationRepeat(animation);
-                onAnimationCancel(animation);
             }
 
             @Override
-            public void onAnimationCancel(final Animator animation) {
-                //nothing is cancelled.
-            }
-
-            @Override
-            public void onAnimationRepeat(final Animator animation) {
-                //No repeating set.
+            public void onPageScrollStateChanged(final int state) {
+                if (state == ViewPager.SCROLL_STATE_IDLE) {
+                    handler.removeCallbacks(update);
+                    handler.postDelayed(update, 5000);
+                }
             }
         };
     }
 
-    /**
-     * Returns listener for end animation for backdrop.
-     *
-     * @return Animator listener for animator object.
-     */
-    private Animator.AnimatorListener getEndAnimatorListener() {
-        return new Animator.AnimatorListener() {
+    private void setupAnnouncementSlideshow() {
+        annItems = database.where(AnnItem.class).findAllSorted(AnnItemKeys.DATE, Sort.DESCENDING);
+        final List<String> annItemsText = new ArrayList<>();
+        for (AnnItem ai : annItems) annItemsText.add(ai.getData());
+        setTextData(annItemsText);
+        annItems.addChangeListener((collection, changeSet) -> {
+            annItemsText.clear();
+            for (AnnItem ai : annItems) annItemsText.add(ai.getData());
+            setTextData(annItemsText);
+        });
+    }
+
+    private ValueEventListener getHomeRefVEL() {
+        return new ValueEventListener() {
             @Override
-            public void onAnimationStart(final Animator animation) {
-                announceFab.startAnimation(AnimationUtils.loadAnimation(getContext(),
-                        R.anim.fab_close));
-                mainFab.startAnimation(AnimationUtils.loadAnimation(getContext(),
-                        R.anim.rotate_anticlock));
+            public void onDataChange(final DataSnapshot dataSnapshot) {
+                AHC.logd(TAG, "query snapshot is " + dataSnapshot.toString());
+                new Thread(() -> HomeService.saveHomeSnapshotToRealm(dataSnapshot)).start();
             }
 
             @Override
-            public void onAnimationEnd(final Animator animation) {
-                announceFab.setVisibility(View.INVISIBLE);
-                backdrop.setVisibility(View.INVISIBLE);
-                announceFab.setClickable(false);
-                backdrop.setClickable(false);
-                isFabOpen = false;
-
-                //To keep coverage at 100%
-                onAnimationRepeat(animation);
-                onAnimationCancel(animation);
-            }
-
-            @Override
-            public void onAnimationCancel(final Animator animation) {
-                //Nothing is cancelled.
-            }
-
-            @Override
-            public void onAnimationRepeat(final Animator animation) {
-                //No repeating set.
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "Database access error." + databaseError.toString());
             }
         };
     }
 
-    @Override
-    public void onItemClick(final View view, final int position) {
-        final Intent intent = new Intent(getContext(), PostDetailsActivity.class);
-        final TypeItem item = homeAdapter.getData().get(position);
-        intent.putExtra(PostKeys.TYPE, item.getType());
-        //switch (item.getType()) {
-        //    case PostType.ANNOUNCEMENT: {
-        intent.putExtra(AnnItemKeys.PRIMARY_KEY, ((AnnItem) item.getData()).getKey());
-        //        break;
-        //    }
-        //}
-        startActivity(intent);
+    private ValueEventListener getAnnRefVEL() {
+        return new ValueEventListener() {
+            @Override
+            public void onDataChange(final DataSnapshot dataSnapshot) {
+                new Thread(() -> HomeService.saveAnnSnapshotToRealm(dataSnapshot));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "Database access error." + databaseError.toString());
+            }
+        };
     }
 
+    private ValueEventListener getImageSlideShowVEL() {
+        return new ValueEventListener() {
+            @Override
+            public void onDataChange(final DataSnapshot dataSnapshot) {
+                if (dataSnapshot == null) return;
+                //Delete old values
+                slideshowItems.clear();
+                for (final DataSnapshot cs :
+                        dataSnapshot.getChildren()) {
+                    if (!cs.hasChild(SlideshowItemKeys.PHOTO_URL)
+                            || !cs.hasChild(SlideshowItemKeys.PHOTO_DATE)) continue;
+                    final SlideshowItem ssi = new SlideshowItem();
+                    ssi.setPhotoUrl(cs.child(SlideshowItemKeys.PHOTO_URL).getValue(String.class));
+                    ssi.setPhotoDate(cs.child(SlideshowItemKeys.PHOTO_DATE).getValue(Date.class));
+                    ssi.setPhotoTitle(cs.child(SlideshowItemKeys.PHOTO_TITLE).getValue(String.class));
+                    ssi.setPhotoDesc(cs.child(SlideshowItemKeys.PHOTO_DESC).getValue(String.class));
+                    ssi.setPhotoTag(cs.child(SlideshowItemKeys.PHOTO_TAG).getValue(String.class));
+                    ssi.setPhotoTagColor(cs.child(SlideshowItemKeys.PHOTO_TAG_COLOR).getValue(String.class));
+                    ssi.setPhotoTagTextColor(cs.child(SlideshowItemKeys.PHOTO_TAG_TEXT_COLOR).getValue(String.class));
+                    slideshowItems.add(ssi);
+                }
+                slideshowAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(final DatabaseError databaseError) {
+                Log.e(TAG, "Error while getting slidehshow images\n" + databaseError.getDetails());
+            }
+        };
+    }
+
+    public void scrollToTop() {
+        //App crashes on removing this check
+        //TODO fix required
+        if (nsv != null) nsv.scrollTo(0, 0);
+    }
+
+    public void setTextData(final List<String> data) {
+        if (annVP == null) return;
+        final AnnSlideshowAdapter adapter = new AnnSlideshowAdapter(data);
+        if (annSlideshowHandler == null) annSlideshowHandler = new Handler();
+        if (annSlideshowRunable == null) annSlideshowRunable = new Runnable() {
+            @Override
+            public void run() {
+                if (adapter.getCount() == 0) return;
+                int viewpagerpos = annVP.getCurrentItem();
+                viewpagerpos++;
+                viewpagerpos %= adapter.getCount();
+                annVP.setCurrentItem(viewpagerpos);
+                annSlideshowHandler.postDelayed(annSlideshowRunable, 2500);
+            }
+        };
+        annVP.setAdapter(adapter);
+        annSlideshowHandler.removeCallbacks(annSlideshowRunable);
+        annSlideshowHandler.postDelayed(annSlideshowRunable, 2500);
+    }
+
+    @OnClick(R.id.ann_card_fragment_home)
+    public void openAnnActivity() {
+        startActivity(new Intent(getContext(), AnnActivity.class));
+    }
+
+    //called everytime orientation changes
     @Override
-    public void onLongItemClick(final View view, final int position) {
-        //Not required as of now
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        hideAppBar();
+    }
+
+    //function to hide appbar
+    private void hideAppBar() {
+        final CoordinatorLayout.LayoutParams params =
+                (CoordinatorLayout.LayoutParams) nsv.getLayoutParams();
+
+        // Checks the orientation of the screen
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            params.setBehavior(null);
+            appBarLayout.setVisibility(View.GONE);
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            params.setBehavior(new AppBarLayout.ScrollingViewBehavior());
+            appBarLayout.setVisibility(View.VISIBLE);
+        }
+        nsv.requestLayout();
     }
 }

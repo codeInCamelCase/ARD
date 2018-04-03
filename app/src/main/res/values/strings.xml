@@ -1,8 +1,15 @@
 <resources>
-    <string name="app_name">ARD</string>
+    <string name="app_name" translatable="false">ARD</string>
+    <string name="app_description">ARD - Brought to you by the Mobile Applications Club, BITS Pilani K K Birla Goa Campus</string>
+
+    <!--Services description -->
+    <string name="home_service_desc">Downloads latest articles from server.</string>
+    <string name="messaging_service_desc">Downloads latest chat messages from server. Do not force close.</string>
+    <string name="notification_service_desc">Creates notifications.</string>
 
     <!-- Activity titles -->
     <string name="title_activity_auth">Authenticate</string>
+    <string name="title_activity_document_send">Send</string>
     <string name="title_activity_post">Create</string>
     <string name="title_activity_post_details">Details</string>
     <string name="title_activity_search">Search</string>
@@ -20,12 +27,14 @@
     <string name="nav_header_main_text_view_subtitle">android.studio@android.com</string>
 
     <!-- MainActivity bottom nav strings -->
-    <string name="bottom_nav_faq_activity_main">F.A.Q.</string>
+    <string name="bottom_nav_forum_activity_main">Forum</string>
     <string name="bottom_nav_home_activity_main">Home</string>
     <string name="bottom_nav_chat_activity_main">Chat</string>
+    <string name="bottom_nav_more_activity_main">More</string>
+    <string name="bottom_nav_details_activity_main">Details</string>
 
     <!-- Faq fragment tab layout titles -->
-    <string name="tabLayout_faq_general">General</string>
+    <string name="tabLayout_forum_general">General</string>
 
     <!-- Home Fragment strings -->
     <string name="hint_home_ann_fragment_message">Enter message</string>
@@ -52,12 +61,22 @@
     <string name="contentDesc_viewHolder_ann_icon">Announcement viewholder icon</string>
 
     <!-- Strings related to login -->
-    <string name="banner_text_ard">ARD</string>
+    <string name="banner_text_ard" translatable="false">ARD</string>
     <string name="google_sign_in">Sign in with Google</string>
     <string name="error_google_sign_in_failed">Google sign in failed</string>
 
     <!--Firebase related values-->
     <string name="firebase_web_client_id" translatable="false">895100654158-136bgaosvno98ebaebrdm6cra8ckp0gu.apps.googleusercontent.com</string>
     <string name="hint_frame_comment_message">Type a message</string>
+    <string name="title_activity_chat">Chat</string>
+    <string name="title_activity_new_chat">New</string>
+    <string name="title_activity_ann">Announcements</string>
+
+    <!-- Message status -->
+    <string name="msg_read">Message Read</string>
+    <string name="msg_rcvd">Message Delivered</string>
+    <string name="msg_sent">Message Sent</string>
+    <string name="msg_wait">Waiting</string>
+    <string name="not_admin_placeholder">User</string>
 
 </resources>
