@@ -103,6 +103,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
         homeRV.setAdapter(new HomeAdapter(getContext()));
 
         setupSlideshows();
+        scrollToTop();
+
 
         return view;
     }
@@ -111,7 +113,6 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     public void onStart() {
         super.onStart();
         appBarLayout.addOnOffsetChangedListener(this);
-        scrollToTop();
         //hide app bar if orientation is landscape on starting
         hideAppBar();
         appBarLayout.offsetTopAndBottom(appBarOffset);
@@ -164,9 +165,8 @@ public class HomeFragment extends BaseFragment implements AppBarLayout.OnOffsetC
     }
 
     public void scrollToTop() {
-        //App crashes on removing this check
-        //TODO fix required
-        if (nsv != null) nsv.scrollTo(0, 0);
+        nsv.fullScroll(View.FOCUS_UP);
+        nsv.scrollTo(0, 0);
     }
 
     @OnClick(R.id.itemView_ann_card)
