@@ -9,18 +9,38 @@ import com.macbitsgoa.ard.models.UserItem;
  */
 public class UserItemKeys {
 
+
+    /**
+     * Field {@link UserItem#uid} (uid field).
+     */
+    public static final String UID = "uid";
+
+    /**
+     * Token key for use with Firebase. Not saved in local database.
+     */
+    public static final String FDR_TOKEN = "token";
+
     /**
      * Field {@link UserItem#name} (Name of UserItem).
      */
-    public static final String FDR_USERS_NAME = "name";
+    public static final String NAME = "name";
 
     /**
      * Field {@link UserItem#email} (email id of user).
      */
-    public static final String FDR_USERS_EMAIL = "email";
+    public static final String EMAIL = "email";
 
     /**
      * Field {@link UserItem#photoUrl} (photo url of user).
      */
-    public static final String FDR_USERS_PHOTO_URL = "photoUrl";
+    public static final String PHOTO_URL = "photoUrl";
+    /**
+     * Phone number of user.
+     */
+    public static final String PHONE_NUMBER = "phoneNumber";
+
+    /**
+     * Field {@link UserItem#photoUrl} (photo url of user).
+     */
+    public static final String DESC = "desc";
 }
